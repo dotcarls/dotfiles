@@ -1,0 +1,19 @@
+[user]
+    name = Tim Carlson
+    email = tim.carlson@gmail.com
+
+[includeIf "gitdir:Work/"]
+    path = /Users/tcarlson/.zenv/.gitconfig-work
+
+[core]
+    editor = code --wait
+
+[diff]
+    tool = default-difftool
+[difftool "default-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+
+[merge]
+    tool = vscode
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
