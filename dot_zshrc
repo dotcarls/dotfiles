@@ -103,3 +103,6 @@ source $ZSH/oh-my-zsh.sh
 # Begin zenvironment config
 source ~/.zenv/zenv.sh
 
+
+# Added by Krypton
+export GPG_TTY=$(tty)
