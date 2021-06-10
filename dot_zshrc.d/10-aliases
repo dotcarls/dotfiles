@@ -1,2 +1,4 @@
+#!/usr/bin/env zsh
+
 alias cm=chezmoi
-alias code=codium
+alias cdz="cd ~/Work/src/zenvironment"

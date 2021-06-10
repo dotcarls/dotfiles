@@ -1,12 +1,10 @@
+#!/usr/bin/env zsh
+
 #
 # path config
 #
 export N_PREFIX=~/.local/share/n
 export PATH="${N_PREFIX}/bin:${PATH}"
-
-#
-# user config
-#
 
 #
 # history config
