@@ -1,0 +1,29 @@
+#
+# required
+#
+cask "docker"
+cask "visual-studio-code"
+
+#
+# optional
+#
+brew "zsh"                          # `zsh`                     - if Jason Bourne went to MIT
+brew "bash"                         # `bash`                    - because Apply daddy won't fight GPLv3
+brew "vim"                          # `vim`                     - for maximum improvedness
+brew "dust"                         # `dust`                    - a tree based `du` with a desert name
+brew "tealdeer"                     # `tldr`                    - rusty abbreviated manpages
+brew "chezmoi"                      # `chezmoi` (alias: cm*)    - manages dotfiles
+brew "n"                            # `n`                       - manages node versions
+brew "fzf"                          # `fzf`                     - finds fuzzy stuff wait n-
+brew "ripgrep"                      # `rg`                      - greps stuff real good
+brew "glances"                      # `glances`                 - a quickview of top and ps
+brew "pandoc"                       # `pandoc`                  - turn one type of document into 50 different types of document
+brew "gnupg"                        # `gpg`                     - bob and alice are up to no good.. or are they?
+cask "iterm2"                       # `iterm`                   - hip cool replacement for Terminal.app
+cask "spotify"                      # 🔊
+
+# huge set of fonts available here: https://github.com/Homebrew/homebrew-cask-fonts
+tap "homebrew/cask-fonts"
+cask "font-mononoki"
+cask "font-mononoki-nerd-font"
+cask "font-hack-nerd-font"
