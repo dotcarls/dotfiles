@@ -1,9 +1,16 @@
 #!/usr/bin/env zsh
 
-alias cm=chezmoi
 alias cdz="cd ~/Work/src/zenvironment"
+
+# Actions
+alias update-global-deps-brew="brew bundle --global"
+alias update-global-deps-npm="npm update -g"
+alias update-global-deps="update-global-deps-npm; update-global-deps-brew"
+
+# Binary specific
 alias glances="glances --theme-white"
 
+alias cm=chezmoi
 alias cma="cm apply"                        # ChezMoi Apply
 alias cmd="cm diff"                         # ChezMoi Diff
 alias cme="cm edit"                         # ChezMoi Edit
