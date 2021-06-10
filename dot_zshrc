@@ -1,78 +1,85 @@
-# If you come from bash you might have to change your $PATH.
-# export PATH=$HOME/bin:/usr/local/bin:$PATH
+#!/usr/bin/env zsh
 
-# Path to your oh-my-zsh installation.
-export ZSH="/Users/tcarlson/.oh-my-zsh"
+# check if a command exists
+has() {
+  command -v "$@" > /dev/null 2>&1
+  # which "$@" > /dev/null 2>&1
+}
 
-# Set name of the theme to load --- if set to "random", it will
-# load a random theme each time oh-my-zsh is loaded, in which case,
-# to know which specific one was loaded, run: echo $RANDOM_THEME
-# See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+# setup powerlevel10k prompt
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
 
-# Set list of themes to pick from when loading at random
-# Setting this variable when ZSH_THEME=random will cause zsh to load
-# a theme from this variable instead of looking in $ZSH/themes/
-# If set to an empty array, this variable will have no effect.
-# ZSH_THEME_RANDOM_CANDIDATES=( "robbyrussell" "agnoster" )
+# loadtart zgenom
+if [ -f ~/.zgen-setup ]; then
+  source ~/.zgen-setup
+fi
 
-# Uncomment the following line to use case-sensitive completion.
-# CASE_SENSITIVE="true"
+# Set path to oh-my-zsh installation.
+# export ZSH="/Users/tcarlson/.oh-my-zsh"
 
-# Uncomment the following line to use hyphen-insensitive completion.
-# Case-sensitive completion must be off. _ and - will be interchangeable.
-# HYPHEN_INSENSITIVE="true"
+# Create and load from the ~/.zshrc.d directory
+mkdir -p ~/.zshrc.d
+if [ -n "$(/bin/ls -A ~/.zshrc.d)" ]; then
+  for file in $(/bin/ls -A ~/.zshrc.d); do
+    if [ -r ~/.zshrc.d/$dotfile ]; then
+      source ~/.zshrc.d/$dotfile
+    fi
+  done
+fi
 
-# Uncomment the following line to disable bi-weekly auto-update checks.
-# DISABLE_AUTO_UPDATE="true"
+# Speed up autocomplete, force prefix mapping
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)*==34=34}:${(s.:.)LS_COLORS}")';
 
-# Uncomment the following line to automatically update without prompting.
-# DISABLE_UPDATE_PROMPT="true"
+# Load any custom zsh completions we've installed
+if [[ -d ~/.zsh-completions ]]; then
+  for completion in ~/.zsh-completions/*
+  do
+    if [[ -r "$completion" ]]; then
+      source "$completion"
+    else
+      echo "Can't read $completion"
+    fi
+  done
+fi
 
-# Uncomment the following line to change how often to auto-update (in days).
-# export UPDATE_ZSH_DAYS=13
+# Fix bracketed paste issue
+# Closes #73
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste)
 
-# Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
+# Load iTerm shell integrations if found.
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
 
-# Uncomment the following line to disable colors in ls.
-# DISABLE_LS_COLORS="true"
+# To customize your prompt, run `p10k configure` or edit ~/.p10k.zsh.
+if [[ ! -f ~/.p10k.zsh ]]; then
+  echo "Run p10k configure or edit ~/.p10k.zsh to configure your prompt"
+else
+  source ~/.p10k.zsh
+fi
 
-# Uncomment the following line to disable auto-setting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment the following line to enable command auto-correction.
-# ENABLE_CORRECTION="true"
-
-# Uncomment the following line to display red dots whilst waiting for completion.
-# Caution: this setting can cause issues with multiline prompts (zsh 5.7.1 and newer seem to work)
-# See https://github.com/ohmyzsh/ohmyzsh/issues/5765
-# COMPLETION_WAITING_DOTS="true"
-
-# Uncomment the following line if you want to disable marking untracked files
-# under VCS as dirty. This makes repository status check for large repositories
-# much, much faster.
-# DISABLE_UNTRACKED_FILES_DIRTY="true"
-
-# Uncomment the following line if you want to change the command execution time
-# stamp shown in the history command output.
-# You can set one of the optional three formats:
-# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
-# or set a custom format using the strftime function format specifications,
-# see 'man strftime' for details.
-# HIST_STAMPS="mm/dd/yyyy"
-
-# Would you like to use another custom folder than $ZSH/custom?
-# ZSH_CUSTOM=/path/to/new-custom-folder
+if [[ -z "ZSH_QUICKSTART_SKIP_TRAPINT" ]]; then
+  # Original source: https://vinipsmaker.wordpress.com/2014/02/23/my-zsh-config/
+  # bash prints ^C when you're typing a command and control-c to cancel, so it
+  # is easy to see it wasn't executed. By default, ZSH doesn't print the ^C.
+  # We trap SIGINT to make it print the ^C.
+  TRAPINT() {
+    print -n -u2 '^C'
+    return $((128+$1))
+  }
+fi
 
 # Which plugins would you like to load?
 # Standard plugins can be found in $ZSH/plugins/
 # Custom plugins may be added to $ZSH_CUSTOM/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git)
+# plugins=(gitfast genpass jsontools osx)
 
-source $ZSH/oh-my-zsh.sh
+# source $ZSH/oh-my-zsh.sh
 
 # User configuration
 
@@ -80,13 +87,6 @@ source $ZSH/oh-my-zsh.sh
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
-
-# Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='mvim'
-# fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
@@ -100,9 +100,38 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
-# Begin zenvironment config
-source ~/.zenv/zenv.sh
-
+# Added by zenv
+# source ~/.zenv/zenv.sh
 
 # Added by Krypton
 export GPG_TTY=$(tty)
+
+### Added by Zinit's installer
+# if [[ ! -f $HOME/.zinit/bin/zinit.zsh ]]; then
+#     print -P "%F{33}▓▒░ %F{220}Installing %F{33}DHARMA%F{220} Initiative Plugin Manager (%F{33}zdharma/zinit%F{220})…%f"
+#     command mkdir -p "$HOME/.zinit" && command chmod g-rwX "$HOME/.zinit"
+#     command git clone https://github.com/zdharma/zinit "$HOME/.zinit/bin" && \
+#         print -P "%F{33}▓▒░ %F{34}Installation successful.%f%b" || \
+#         print -P "%F{160}▓▒░ The clone has failed.%f%b"
+# fi
+
+# source "$HOME/.zinit/bin/zinit.zsh"
+# autoload -Uz _zinit
+# (( ${+_comps} )) && _comps[zinit]=_zinit
+
+# Load a few important annexes, without Turbo
+# (this is currently required for annexes)
+# zinit light-mode for \
+#     zinit-zsh/z-a-rust \
+#     zinit-zsh/z-a-as-monitor \
+#     zinit-zsh/z-a-patch-dl \
+#     zinit-zsh/z-a-bin-gem-node
+
+### End of Zinit's installer chunk
+
+# export ATUIN_NOBIND="true"
+# eval "$(atuin init zsh)"
+# bindkey '^r' _atuin_search_widget
+
+#zinit load ellie/atuin
+#bindkey '^r' _atuin_search_widget

@@ -1,1 +1,3 @@
-export EDITOR="code --wait"
+alias code=codium
+export EDITOR="codium --wait"
+
