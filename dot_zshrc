@@ -1,11 +1,5 @@
 #!/usr/bin/env zsh
 
-# check if a command exists
-declare has() {
-  command -v "$@" > /dev/null 2>&1
-  # which "$@" > /dev/null 2>&1
-}
-
 # setup powerlevel10k prompt
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
