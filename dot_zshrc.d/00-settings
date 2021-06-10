@@ -1,4 +1,12 @@
-#!/usr/bin/env zsh
+#
+# path config
+#
+export N_PREFIX=~/.local/share/n
+export PATH="${N_PREFIX}/bin:${PATH}"
+
+#
+# user config
+#
 
 #
 # history config
@@ -52,6 +60,11 @@ TIMEFMT="%U user %S system %P cpu %*Es total"
 
 # disable oh-my-zsh's auto-update in favor of zgen
 DISABLE_AUTO_UPDATE=true
+DISABLE_UNTRACKED_FILES_DIRTY="true"
+
+#
+# Keybinds
+#
 
 # Expand aliases inline - see http://blog.patshead.com/2012/11/automatically-expaning-zsh-global-aliases---simplified.html
 globalias() {
