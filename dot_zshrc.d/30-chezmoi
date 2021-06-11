@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+#
+# chezmoi related functions and aliases
+#
+alias cm=chezmoi
+alias cma="cm apply; reload-zsh;"           # ChezMoi Apply
+alias cmd="cm diff"                         # ChezMoi Diff
+alias cme="cm edit"                         # ChezMoi Edit
+alias cmezrc="cm edit ~/.zshrc"             # ChezMoi Edit ZshRc
+alias cmea="cm edit ~/.zshrc.d/10-aliases"  # ChezMoi Edit Aliases

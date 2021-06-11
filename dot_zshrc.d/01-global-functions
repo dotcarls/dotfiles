@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+#
+# general utility functions
+#
+
+# reload yer shell
+function reload-zsh {
+    builtin . ~/.zshrc
+}

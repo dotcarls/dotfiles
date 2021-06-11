@@ -1,0 +1,38 @@
+#!/usr/bin/env zsh
+# ^ shebang for vs code syntax highlighting
+#
+# vim: set syn=zsh:
+#
+
+local pathdirs
+
+# Create a list of directories to add to the path
+# gnubin contains coreutils without the g prefix
+pathdirs=(
+    /Applications/VMWare\ Fusion.app/Contents/Library
+    $HOME/Applications/VMWare\ Fusion.app/Content/Library
+    /Library/Frameworks/Python.framework/Versions/Current/bin
+    /usr/local/opt/coreutils/libexec/gnubin
+    /usr/local/share/zsh/site-functions
+    /usr/local/bin
+    /usr/local/git/bin
+    /usr/local/libexec/git-core
+    /opt/local/bin
+    $HOME/bin
+    $HOME/.rbenv/bin
+    $HOME/.local/share/n/bin
+    $HOME/Scratch/bin
+)
+
+# Add directories which exist to the path
+for dir ($pathdirs) {
+    if [[ -d $dir ]]; then
+        path=($dir $path)
+    fi
+}
+
+# # Now that .zshrc.d has been processed, we dedupe $PATH using a ZSH builtin
+# # https://til.hashrocket.com/posts/7evpdebn7g-remove-duplicates-in-zsh-path
+# typeset -aU path;
+
+export N_PREFIX=~/.local/share/n

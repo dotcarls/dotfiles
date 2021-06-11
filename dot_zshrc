@@ -12,13 +12,10 @@ export POWERLEVEL9K_MODE="nerdfont-fontconfig"
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 export COMPLETION_WAITING_DOTS="true"
 
-# loadtart zgenom
-if [ -f ~/.zgen-setup ]; then
-  source ~/.zgen-setup
-fi
-
-# Set path to oh-my-zsh installation.
-# export ZSH="/Users/tcarlson/.oh-my-zsh"
+# # loadtart zgenom
+# if [ -f ~/.zgen-setup ]; then
+#   source ~/.zgen-setup
+# fi
 
 # Create and load from the ~/.zshrc.d directory
 mkdir -p ~/.zshrc.d

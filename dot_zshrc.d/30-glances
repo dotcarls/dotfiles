@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+#
+# glances related functions and aliases
+#
+alias glances="glances --theme-white"

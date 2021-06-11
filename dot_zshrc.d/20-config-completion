@@ -1,0 +1,10 @@
+#!/usr/bin/env zsh
+#
+# completion options
+#
+setopt ALWAYS_TO_END        # move cursor to the end of a completed word
+setopt AUTO_LIST            # automatically list choices on ambiguous completion
+setopt AUTO_MENU            # show completion menu on a successive tab press
+setopt AUTO_PARAM_SLASH     # if completed parameter is a directory, add a trailing slash
+setopt COMPLETE_IN_WORD     # complete from both ends of a word
+unsetopt MENU_COMPLETE      # do not autoselect the first completion entry

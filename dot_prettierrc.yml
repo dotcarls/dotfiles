@@ -1,0 +1,9 @@
+tabWidth: 4         # fight me hendricks you little weasel
+useTabs: false      # i will die on this hill
+singleQuote: false
+
+overrides:
+- files: ".zshrc"
+  options:
+    parser: shellscript
+

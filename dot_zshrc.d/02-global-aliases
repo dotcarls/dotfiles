@@ -1,0 +1,15 @@
+#!/usr/bin/env zsh
+
+# Navigation shortcuts
+alias cdz="cd ~/Work/src/zenvironment"
+
+# Dependency shortcuts
+alias update-global-deps-brew="brew bundle --global"
+alias update-global-deps-npm="npm update -g"
+update-global-deps() {
+    update-global-deps-npm
+    update-global-deps-brew
+}
+
+# glances
+alias glances="glances --theme-white"

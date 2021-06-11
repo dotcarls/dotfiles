@@ -1,0 +1,9 @@
+#!/usr/bin/env zsh
+#
+# file / dir / path / nav options
+#
+setopt correct              # correct spelling for commands and
+unsetopt correctall         # turn off correctall for filenames
+
+setopt pushd_ignore_dups    # don’t push duplicate directories onto the stack
+setopt extended_glob        # enable more powerful glob features

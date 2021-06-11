@@ -1,0 +1,20 @@
+#!/usr/bin/env zsh
+
+# download zgen if not found
+ZGEN_REPO="jandamm/zgenom"
+ZGEN_SRC_DIR="${ZGEN_SRC_DIR:-$HOME/.local/src/github/$ZGEN_REPO}"
+ZGEN_ENTRYPOINT="${ZGEN_SRC_DIR}/zgenom.zsh"
+
+if [[ ! -f "${ZGEN_ENTRYPOINT}" ]]; then
+  mkdir -p "${ZGEN_SRC_DIR}"
+  git clone "https://github.com/${ZGEN_REPO}.git" "${ZGEN_SRC_DIR}"
+fi
+
+# attempt to load zgen
+if [[ ! -f "${ZGEN_ENTRYPOINT}" ]]; then
+  echo "Could not load zgen, path: ${ZGEN_ENTRYPOINT}"
+else
+  # location zgen stores plugins / themes / etc
+  ZGEN_DIR=${ZGEN_DIR:-$HOME/.zgenom}
+  source "${ZGEN_ENTRYPOINT}"
+fi

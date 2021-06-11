@@ -1,0 +1,25 @@
+#!/usr/bin/env zsh
+#
+# Docker related functions and aliases
+#
+alias dkr="docker"          # DocKeR
+alias dkre="docker exec"    # DocKeR Exec
+alias dkrr="docker run"     # DocKeR Run
+alias dkrb="docker build"   # DocKeR Build
+alias dkrs="docker system"  # DocKeR System
+
+# Fuzzy DocKeR Exec
+#   description: find a running container then run `docker exec -it CMD` 
+#   usage: fde CMD...
+function fdkre() {
+    readonly cmd=${1:?"a command must be specified"}
+    local cid=$(docker ps | sed 1d | fzf --no-multi -q "$2" | awk '{print $1}')
+    [ -n "$cid" ] && docker exec -it "$cid" "$@"
+}
+
+# Fuzzy DocKeR RM Images
+#   description: multi-select images to remove
+#   usage: fdrmi [QUERY]
+function fdkrrmi() {
+    docker images | sed 1d | fzf -q "$1" --no-sort -m --tac | awk '{ print $3 }' | xargs docker rmi
+}
