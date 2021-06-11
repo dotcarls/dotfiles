@@ -113,17 +113,11 @@ if ! zgen saved; then
   setup-zgen-repos
 fi
 
-if [[ -f ~/.zgen-setup ]]; then
-  REAL_ZGEN_SETUP=~/.zgen-setup
-fi
-
-if [[ -L ~/.zgen-setup ]]; then
-  REAL_ZGEN_SETUP="$(readlink ~/.zgen-setup)"
-fi
-
+plugin_file=~/.zshrc.d/11-plugin-install
 # If .zgen-setup is newer than init.zsh, regenerate init.zsh
-if [ $(get_file_modification_time ${REAL_ZGEN_SETUP}) -gt $(get_file_modification_time ~/.zgenom/init.zsh) ]; then
-  echo "$(basename ${REAL_ZGEN_SETUP}) updated; creating a new init.zsh from plugin list in ${REAL_ZGEN_SETUP}"
+if [ $(get_file_modification_time ${plugin_file}) -gt $(get_file_modification_time ~/.zgenom/init.zsh) ]; then
+  echo "$(basename ${plugin_file}) updated; creating a new init.zsh from plugin list in ${plugin_file}"
   setup-zgen-repos
 fi
 unset REAL_ZGEN_SETUP
+ 
