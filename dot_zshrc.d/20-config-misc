@@ -6,7 +6,7 @@ setopt INTERACTIVE_COMMENTS  # Enable comments in interactive shell.
 
 # Long running processes should return time after they complete. Specified
 # in seconds.
-REPORTTIME=2
+REPORTTIME=30
 TIMEFMT="%U user %S system %P cpu %*Es total"
 
 # disable oh-my-zsh's auto-update in favor of zgen
