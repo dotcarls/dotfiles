@@ -10,7 +10,9 @@ alias cmezrc="cm edit ~/.zshrc"            # ChezMoi Edit ZshRc
 alias cmea="cm edit ~/.zshrc.d/10-aliases" # ChezMoi Edit Aliases
 
 function edit-dotfiles {
-    chezmoi cd && exec $EDITOR -- .
+    pushd
+    chezmoi edit
+    popd
 }
 
 # save-dotfiles - apply and commit dotfiles
