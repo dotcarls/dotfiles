@@ -17,7 +17,7 @@ function save-dotfiles {
     LESS="$LESS -FRXK" chezmoi diff || echo "no diff"
 
     lg $0 "remote diff:"
-    LESS="$LESS -FRXK" chezmoi git diff || echo "no diff"
+    LESS="$LESS -FRXK" chezmoi git diff --no-pager || echo "no diff"
  
     # http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html#index-read
     if read -q "choice?continue? (Y/y): "; then
