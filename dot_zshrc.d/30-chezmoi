@@ -9,6 +9,10 @@ alias cme="cm edit"                        # ChezMoi Edit
 alias cmezrc="cm edit ~/.zshrc"            # ChezMoi Edit ZshRc
 alias cmea="cm edit ~/.zshrc.d/10-aliases" # ChezMoi Edit Aliases
 
+function edit-dotfiles {
+    chezmoi cd && exec $EDITOR -- .
+}
+
 # save-dotfiles - apply and commit dotfiles
 function save-dotfiles { 
     readonly local commit_message="${1:?"a commit message must be specified"}"
