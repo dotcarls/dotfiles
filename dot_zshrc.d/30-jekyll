@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+#
+# Jekyll related functions and aliases
+#
+jekyll() {
+    local image="jekyll/builder"
+    local tag="stable"
+
+    local pull="--pull=always"
+    local volumes="-v $PWD:/srv/jekyll"
+    local vars="-e JEKYLL_ROOTLESS=true"
+    docker run -it --rm "${pull}" "${volumes}" "${vars}" "${image}:${tag}" "$0" "$@"
+}

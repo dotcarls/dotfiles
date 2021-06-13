@@ -1,3 +1,16 @@
 #!/usr/bin/env zsh
+#
+# auto-commit-stats related functions and aliases
+#
+alias auto-commit-stats="~/.local/src/github/dotcarls/auto-commit-stats/run.sh"     # Auto-Commit-Stats
 
-(~/.local/src/github/dotcarls/auto-commit-stats/run.sh > /dev/null 2>&1 &)
+# auto-commit-stats-BackGround - run `auto-commit-stats` in the background
+function auto-commit-stats-bg {
+    lg $0 "updating stats..."
+    (acs > /dev/null 2>&1 &)
+}
+
+# set `AUTO_COMMIT_STATS_SKIP=true` (or anything) to skip stats
+if [ -z "$AUTO_COMMIT_STATS_SKIP" ]; then
+    auto-commit-stats-bg
+fi

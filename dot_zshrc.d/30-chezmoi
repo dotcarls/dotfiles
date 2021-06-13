@@ -10,18 +10,16 @@ alias cmezrc="cm edit ~/.zshrc"            # ChezMoi Edit ZshRc
 alias cmea="cm edit ~/.zshrc.d/10-aliases" # ChezMoi Edit Aliases
 
 function save-dotfiles { 
-    lg $0 "huh?"
-    pushd $(chezmoi cd && pwd)
     lg $0 "local diff:"
     LESS="$LESS -FRXK" chezmoi diff || echo "no diff"
     lg $0 "remote diff:"
-    LESS="$LESS -FRXK" git diff || echo "no diff"
+    LESS="$LESS -FRXK" chezmoi git diff || echo "no diff"
     
     # http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html#index-read
     if read -q "choice?Press Y/y to continue with commit and apply: "; then
-        git add .
-        git commit
-        git push origin main
+        chezmoi git add .
+        chezmoi git commit
+        chezmoi git push origin main
         chezmoi apply
     else
         echo
