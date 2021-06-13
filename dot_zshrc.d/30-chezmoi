@@ -29,6 +29,6 @@ function save-dotfiles {
         reload-zsh
     else
         echo
-        echo "'$choice' not 'Y' or 'y'. Exiting..."
+        echo "'$choice' not 'Y' or 'y'. Skipping..."
     fi
 }
