@@ -3,7 +3,53 @@
 # general utility functions
 #
 
+# Original source: https://vinipsmaker.wordpress.com/2014/02/23/my-zsh-config/
+# bash prints ^C when you're typing a command and control-c to cancel, so it
+# is easy to see it wasn't executed. By default, ZSH doesn't print the ^C.
+# We trap SIGINT to make it print the ^C.
+TRAPINT() {
+    print -n -u2 '^C'
+    return $((128 + $1))
+}
+
+# LoG-ForMaT - format a message with caller and timestamp information
+#   usage: lg-fmt CALLER MESSAGE...
+function lg-fmt {
+    readonly local caller="${1:?"a caller must be specified"}"
+    readonly local msg="${${@:2}:?"a message must be specified"}"
+
+    echo "[$caller] $(date "+%F %T %Z") [$$] ""$msg"
+}
+
+# LoG - log to stdout if it is attached to a TTY
+#   usage: lg CALLER MESSAGE...
+function lg {
+    # print to stdout if attached to a TTY
+    [[ -t 1 ]] && lg-fmt $*
+    [[ -f ~/.zshrc_logs ]] && lg-fmt $* >> ~/.zshrc_logs
+}
+
+# Error LoG - log to stderr if it is attached to a TTY
+#   usage: elg CALLER MESSAGE...
+function elg {
+    [[ -t 2 ]] && lg-fmt $* > /dev/stderr
+    [[ -f ~/.zshrc_logs ]] && lg-fmt $* >> ~/.zshrc_logs
+}
+
 # reload yer shell
 function reload-zsh {
-    builtin . ~/.zshrc
+    lg $0 "reloading ~/.zshrc"
+    AUTO_COMMIT_STATS_SKIP=true builtin . ~/.zshrc
+}
+
+# ping default gateway in an attempt to determine whether or not we're
+# connected to the interwebz
+function can-reach-default-gateway {
+    readonly local gateway=$(route -n get default 2>/dev/null | grep gateway)
+    if [ -z "$gateway" ]; then
+        elg $0 "Could not determine gateway... assuming offline"
+        return 1
+    else
+        ping -q -t 1 -c 1 $(echo $gateway | cut -d ':' -f 2) >/dev/null && return 0 || return 1
+    fi
 }

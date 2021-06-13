@@ -12,38 +12,14 @@ export POWERLEVEL9K_MODE="nerdfont-fontconfig"
 # Uncomment following line if you want red dots to be displayed while waiting for completion
 export COMPLETION_WAITING_DOTS="true"
 
-# # loadtart zgenom
-# if [ -f ~/.zgen-setup ]; then
-#   source ~/.zgen-setup
-# fi
+# Global ZSH settings
+CASE_SENSITIVE="true"
 
 # Create and load from the ~/.zshrc.d directory
 mkdir -p ~/.zshrc.d
 for file in ~/.zshrc.d/*; do
   source $file
 done
-
-# Speed up autocomplete, force prefix mapping
-zstyle ':completion:*' accept-exact '*(N)'
-zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache
-zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)*==34=34}:${(s.:.)LS_COLORS}")';
-
-# Load any custom zsh completions we've installed
-if [[ -d ~/.zsh-completions ]]; then
-  for completion in ~/.zsh-completions/*
-  do
-    if [[ -r "$completion" ]]; then
-      source "$completion"
-    else
-      echo "Can't read $completion"
-    fi
-  done
-fi
-
-# Fix bracketed paste issue
-# Closes #73
-ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste)
 
 # Load iTerm shell integrations if found.
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
@@ -53,17 +29,6 @@ if [[ ! -f ~/.p10k.zsh ]]; then
   echo "Run p10k configure or edit ~/.p10k.zsh to configure your prompt"
 else
   source ~/.p10k.zsh
-fi
-
-if [[ -z "ZSH_QUICKSTART_SKIP_TRAPINT" ]]; then
-  # Original source: https://vinipsmaker.wordpress.com/2014/02/23/my-zsh-config/
-  # bash prints ^C when you're typing a command and control-c to cancel, so it
-  # is easy to see it wasn't executed. By default, ZSH doesn't print the ^C.
-  # We trap SIGINT to make it print the ^C.
-  TRAPINT() {
-    print -n -u2 '^C'
-    return $((128+$1))
-  }
 fi
 
 # Added by Krypton

@@ -10,7 +10,7 @@ alias dkrs="docker system"  # DocKeR System
 
 # Fuzzy DocKeR Exec
 #   description: find a running container then run `docker exec -it CMD` 
-#   usage: fde CMD...
+#   usage: fdkre CMD...
 function fdkre() {
     readonly cmd=${1:?"a command must be specified"}
     local cid=$(docker ps | sed 1d | fzf --no-multi -q "$2" | awk '{print $1}')
@@ -19,7 +19,14 @@ function fdkre() {
 
 # Fuzzy DocKeR RM Images
 #   description: multi-select images to remove
-#   usage: fdrmi [QUERY]
+#   usage: fdkrmi [QUERY]
 function fdkrrmi() {
     docker images | sed 1d | fzf -q "$1" --no-sort -m --tac | awk '{ print $3 }' | xargs docker rmi
+}
+
+# Fuzzy DocKeR Kill
+#   description: multi-select images to kill
+#   usage: fdkrk [QUERY]
+function fdkrk() {
+    docker ps | sed 1d | fzf -q "$1" --no-sort -m --tac | awk '{ print $1 }' | xargs docker kill
 }

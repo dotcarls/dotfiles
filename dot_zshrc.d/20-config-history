@@ -20,3 +20,4 @@ HISTSIZE=100000
 SAVEHIST=100000
 HISTFILE=~/.zsh_history
 export HISTIGNORE="ls:cd:cd -:pwd:exit:date:* --help"
+export HISTTIMEFORMAT="%F %T %Z"

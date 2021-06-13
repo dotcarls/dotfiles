@@ -8,3 +8,25 @@ setopt AUTO_MENU            # show completion menu on a successive tab press
 setopt AUTO_PARAM_SLASH     # if completed parameter is a directory, add a trailing slash
 setopt COMPLETE_IN_WORD     # complete from both ends of a word
 unsetopt MENU_COMPLETE      # do not autoselect the first completion entry
+
+# Speed up autocomplete, force prefix mapping
+zstyle ':completion:*' accept-exact '*(N)'
+zstyle ':completion:*' use-cache on
+zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)*==34=34}:${(s.:.)LS_COLORS}")';
+
+# Load any custom zsh completions we've installed
+if [[ -d ~/.zsh-completions ]]; then
+  for completion in ~/.zsh-completions/*
+  do
+    if [[ -r "$completion" ]]; then
+      source "$completion"
+    else
+      echo "Can't read $completion"
+    fi
+  done
+fi
+
+# Fix bracketed paste issue
+# Closes #73
+ZSH_AUTOSUGGEST_CLEAR_WIDGETS+=(bracketed-paste)

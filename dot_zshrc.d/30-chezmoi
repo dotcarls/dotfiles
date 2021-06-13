@@ -3,8 +3,28 @@
 # chezmoi related functions and aliases
 #
 alias cm=chezmoi
-alias cma="cm apply; reload-zsh;"           # ChezMoi Apply
-alias cmd="cm diff"                         # ChezMoi Diff
-alias cme="cm edit"                         # ChezMoi Edit
-alias cmezrc="cm edit ~/.zshrc"             # ChezMoi Edit ZshRc
-alias cmea="cm edit ~/.zshrc.d/10-aliases"  # ChezMoi Edit Aliases
+alias cma="cm apply"                       # ChezMoi Apply
+alias cmd="cm diff"                        # ChezMoi Diff
+alias cme="cm edit"                        # ChezMoi Edit
+alias cmezrc="cm edit ~/.zshrc"            # ChezMoi Edit ZshRc
+alias cmea="cm edit ~/.zshrc.d/10-aliases" # ChezMoi Edit Aliases
+
+function save-dotfiles { 
+    lg $0 "huh?"
+    pushd $(chezmoi cd && pwd)
+    lg $0 "local diff:"
+    LESS="$LESS -FRXK" chezmoi diff || echo "no diff"
+    lg $0 "remote diff:"
+    LESS="$LESS -FRXK" git diff || echo "no diff"
+    
+    # http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html#index-read
+    if read -q "choice?Press Y/y to continue with commit and apply: "; then
+        git add .
+        git commit
+        git push origin main
+        chezmoi apply
+    else
+        echo
+        echo "'$choice' not 'Y' or 'y'. Exiting..."
+    fi
+}
