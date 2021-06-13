@@ -26,6 +26,7 @@ function save-dotfiles {
         chezmoi git -- commit -m "${commit_message}"
         chezmoi git -- push origin main
         chezmoi apply
+        reload-zsh
     else
         echo
         echo "'$choice' not 'Y' or 'y'. Exiting..."
