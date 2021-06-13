@@ -9,17 +9,22 @@ alias cme="cm edit"                        # ChezMoi Edit
 alias cmezrc="cm edit ~/.zshrc"            # ChezMoi Edit ZshRc
 alias cmea="cm edit ~/.zshrc.d/10-aliases" # ChezMoi Edit Aliases
 
+# save-dotfiles - apply and commit dotfiles
 function save-dotfiles { 
+    readonly local commit_message="${1:?"a commit message must be specified"}"
+
     lg $0 "local diff:"
     LESS="$LESS -FRXK" chezmoi diff || echo "no diff"
+
     lg $0 "remote diff:"
     LESS="$LESS -FRXK" chezmoi git diff || echo "no diff"
-    
+ 
     # http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html#index-read
-    if read -q "choice?Press Y/y to continue with commit and apply: "; then
+    if read -q "choice?continue? (Y/y): "; then
+        echo
         chezmoi git add .
-        chezmoi git commit
-        chezmoi git push origin main
+        chezmoi git -- commit -m "${commit_message}"
+        chezmoi git -- push origin main
         chezmoi apply
     else
         echo
