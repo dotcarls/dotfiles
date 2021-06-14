@@ -7,7 +7,7 @@ jekyll() {
     local tag="stable"
 
     local pull="--pull=always"
-    local volumes="-v $PWD:/srv/jekyll"
+    local volumes="-v ${PWD}:/srv/jekyll"
     local vars="-e JEKYLL_ROOTLESS=true"
-    docker run -it --rm "${pull}" "${volumes}" "${vars}" "${image}:${tag}" "$0" "$@"
+    docker run -it --rm --pull=always -v `pwd`:/srv/jekyll -e JEKYLL_ROOTLESS=true jekyll/builder:stable jekyll $@
 }
