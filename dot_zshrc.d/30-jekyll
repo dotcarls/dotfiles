@@ -9,5 +9,15 @@ jekyll() {
     local pull="--pull=always"
     local volumes="-v ${PWD}:/srv/jekyll"
     local vars="-e JEKYLL_ROOTLESS=true"
-    docker run -it --rm --pull=always -v `pwd`:/srv/jekyll -e JEKYLL_ROOTLESS=true jekyll/builder:stable jekyll $@
+    docker run -it --rm --pull=missing -v `pwd`:/srv/jekyll -e JEKYLL_ROOTLESS=true jekyll/builder:stable jekyll $@
+}
+
+jekyll-serve() {
+    local image="jekyll/builder"
+    local tag="stable"
+
+    local pull="--pull=always"
+    local volumes="-v ${PWD}:/srv/jekyll"
+    local vars="-e JEKYLL_ROOTLESS=true"
+    docker run -it --rm --pull=always -v `pwd`:/srv/jekyll -e JEKYLL_ROOTLESS=true -p 4000:4000 jekyll/builder:stable jekyll $@
 }
