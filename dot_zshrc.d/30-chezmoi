@@ -9,25 +9,31 @@ alias cme="cm edit"                        # ChezMoi Edit
 alias cmezrc="cm edit ~/.zshrc"            # ChezMoi Edit ZshRc
 alias cmea="cm edit ~/.zshrc.d/10-aliases" # ChezMoi Edit Aliases
 
-function edit-dotfiles {
-    pushd
-    chezmoi edit
-    popd
+# Fuzzy ChezMoi Edit
+#   description: fuzzy find a dotfile to edit, optionally specify filename hint
+#   usage: fdkre [FILE]
+function fcme() {
+    local file=$(chezmoi managed | sed 1d | fzf --no-multi -q "$1" | awk '{print $1}')
+    [ -n "$file" ] && chezmoi edit "$file"
 }
 
 # save-dotfiles - apply and commit dotfiles
+#   usage: save-dotfiles "MESSAGE"
 function save-dotfiles { 
     readonly local commit_message="${1:?"a commit message must be specified"}"
-
+    echo "\n\n"
     lg $0 "local diff:"
-    LESS="$LESS -FRXK" chezmoi diff || echo "no diff"
-
+    GIT_PAGER="cat" LESS="$LESS -FRXK" chezmoi --no-pager diff || echo "no diff"
+    
+    echo "\n\n"
     lg $0 "remote diff:"
-    LESS="$LESS -FRXK" chezmoi git diff --no-pager || echo "no diff"
+    GIT_PAGER="cat" LESS="$LESS -FRXK" chezmoi --no-pager git --no-pager diff || echo "no diff"
+    echo "\n\n"
  
     # http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html#index-read
     if read -q "choice?continue? (Y/y): "; then
         echo
+        lg $0 "updating dotfiles..."
         chezmoi git add .
         chezmoi git -- commit -m "${commit_message}"
         chezmoi git -- push origin main

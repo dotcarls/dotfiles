@@ -2,4 +2,5 @@
 #
 # editor options
 #
-EDITOR="code --wait"
+export VISUAL="code --wait --new-window"
+export EDITOR="vim"
