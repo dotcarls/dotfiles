@@ -18,7 +18,7 @@ function lg-fmt {
     readonly local caller="${1:?"a caller must be specified"}"
     readonly local msg="${${@:2}:?"a message must be specified"}"
 
-    echo "[$caller] $(date "+%F %T %Z") [$$] ""$msg"
+    echo "$(date "+%F %T %Z") [$$] [$caller] ""$msg"
 }
 
 # LoG - log to stdout if it is attached to a TTY
