@@ -10,6 +10,7 @@ cask "visual-studio-code"
 # osx apps (casks)
 cask "spotify"                      # 🔊
 cask "iterm2"                       # `iterm`                   - hip cool replacement for Terminal.app
+cask "bot-framework-emulator"       # `bot-framework-emulator`  - interact with ms bot framework bots
 
 # tools
 brew "zsh"                          # `zsh`                     - if Jason Bourne went to MIT
@@ -25,6 +26,8 @@ brew "glances"                      # `glances`                 - a quickview of
 brew "pandoc"                       # `pandoc`                  - turn one type of document into 50 different types of document
 brew "gnupg"                        # `gpg`                     - bob and alice are up to no good.. or are they?
 brew "parallel"                     # `parallel`                - now the whole neighborhood is up to no good
+brew "azure-cli"                    # `az`                      - microsoft daddy
+brew "awscli"                       # `aws`                     - amazon daddy
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
