@@ -28,6 +28,7 @@ brew "gnupg"                        # `gpg`                     - bob and alice 
 brew "parallel"                     # `parallel`                - now the whole neighborhood is up to no good
 brew "azure-cli"                    # `az`                      - microsoft daddy
 brew "awscli"                       # `aws`                     - amazon daddy
+brew "kubectl"                      # `kubectl`                 - kubernetes is fun
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
