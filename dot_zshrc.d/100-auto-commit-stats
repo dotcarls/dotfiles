@@ -6,8 +6,7 @@ alias auto-commit-stats="~/.local/src/github/dotcarls/auto-commit-stats/run.sh" 
 
 # auto-commit-stats-BackGround - run `auto-commit-stats` in the background
 function auto-commit-stats-bg {
-    lg $0 "updating stats..."
-    (acs > /dev/null 2>&1 &)
+    (auto-commit-stats > /dev/null 2>&1 &)
 }
 
 # set `AUTO_COMMIT_STATS_SKIP=true` (or anything) to skip stats
