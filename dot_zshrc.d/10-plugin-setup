@@ -12,7 +12,7 @@ fi
 
 # attempt to load zgen
 if [[ ! -f "${ZGEN_ENTRYPOINT}" ]]; then
-  echo "Could not load zgen, path: ${ZGEN_ENTRYPOINT}"
+  elg "plugin-setup" "Could not load zgen, path: ${ZGEN_ENTRYPOINT}"
 else
   # location zgen stores plugins / themes / etc
   ZGEN_DIR=${ZGEN_DIR:-$HOME/.zgenom}

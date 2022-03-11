@@ -1,7 +1,7 @@
 #!/usr/bin/env zsh
 
 load-starter-plugin-list() {
-  echo "Creating a zgenom save"
+  lg "$0" "Creating a zgenom save"
   ZGEN_LOADED=()
   ZGEN_COMPLETIONS=()
 
@@ -81,6 +81,8 @@ load-starter-plugin-list() {
 
   # Save it all to init script.
   zgenom save
+
+  lg "$0" "Done!"
 }
 
 setup-zgen-repos() {
@@ -116,7 +118,7 @@ fi
 plugin_file=~/.zshrc.d/11-plugin-install
 # If .zgen-setup is newer than init.zsh, regenerate init.zsh
 if [ $(get_file_modification_time ${plugin_file}) -gt $(get_file_modification_time ~/.zgenom/init.zsh) ]; then
-  echo "$(basename ${plugin_file}) updated; creating a new init.zsh from plugin list in ${plugin_file}"
+  lg "plugin-install" "$(basename ${plugin_file}) updated; creating a new init.zsh from plugin list in ${plugin_file}"
   setup-zgen-repos
 fi
 unset REAL_ZGEN_SETUP
