@@ -1,0 +1,13 @@
+#!/usr/bin/env zsh
+#
+# Git related functions and aliases
+#
+pick_branch() LBUFFER="git checkout ${$({
+    for branch in ${(f)"$(git branch --list)"}; do
+        branch_name=$branch[2,-1]
+        # echo ${${${(s. .)branch}[1]}%\*} $branch_name
+        echo $branch_name
+    done
+} | fzf)}"
+zle -N pick_branch
+bindkey '^b' pick_branch
