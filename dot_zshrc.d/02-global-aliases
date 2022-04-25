@@ -4,7 +4,7 @@
 alias cdz="cd ~/Work/src/zenvironment"
 
 # Dependency shortcuts
-alias update-global-deps-brew="brew bundle --global && chezmoi re-add .Brewfile.lock.json && save-dotfiles 'update brew deps'"
+alias update-global-deps-brew="brew bundle --global && chezmoi re-add && save-dotfiles 'update brew deps'"
 alias update-global-deps-npm="npm update -g"
 update-global-deps() {
     update-global-deps-npm
