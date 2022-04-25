@@ -30,6 +30,7 @@ brew "parallel"                     # `parallel`                - now the whole 
 brew "azure-cli"                    # `az`                      - microsoft daddy
 brew "awscli"                       # `aws`                     - amazon daddy
 brew "kubectl"                      # `kubectl`                 - kubernetes is fun
+brew "dive"                         # `dive`                    - inspect docker layers
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
