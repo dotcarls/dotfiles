@@ -31,7 +31,7 @@ brew "azure-cli"                    # `az`                      - microsoft dadd
 brew "awscli"                       # `aws`                     - amazon daddy
 brew "kubectl"                      # `kubectl`                 - kubernetes is fun
 brew "dive"                         # `dive`                    - inspect docker layers
-
+brew "go"                           # `go`                      - language for kewl kids
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
 cask "font-mononoki"
