@@ -21,6 +21,7 @@ pathdirs=(
     $HOME/bin
     $HOME/.rbenv/bin
     $HOME/.local/share/n/bin
+    $HOME/.pyenv/shims
     $HOME/Scratch/bin
 )
 
