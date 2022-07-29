@@ -32,6 +32,10 @@ brew "awscli"                       # `aws`                     - amazon daddy
 brew "kubectl"                      # `kubectl`                 - kubernetes is fun
 brew "dive"                         # `dive`                    - inspect docker layers
 brew "go"                           # `go`                      - language for kewl kids
+brew "shfmt"                        # `shfmt`                   - make ugly scripts less ugly
+brew "tfenv"                        # `tfenv`                   - disguise outdated code by switching terraform versions
+brew "pyenv"                        # `pyenv`                   - why system python always broken? why?? WHY???
+
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
 cask "font-mononoki"
