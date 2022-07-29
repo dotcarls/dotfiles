@@ -35,6 +35,7 @@ brew "go"                           # `go`                      - language for k
 brew "shfmt"                        # `shfmt`                   - make ugly scripts less ugly
 brew "tfenv"                        # `tfenv`                   - disguise outdated code by switching terraform versions
 brew "pyenv"                        # `pyenv`                   - why system python always broken? why?? WHY???
+brew "pipx"                         # `pipx`                    - AGAIN. WHY. SYSTEM. PYTHON. ALWAYS. BROKEN??? 
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
