@@ -13,3 +13,6 @@ update-global-deps() {
 
 # glances
 alias glances="glances --theme-white"
+
+# Screaming Frog SEO Spider
+alias sfseospider="/Applications/Screaming\ Frog\ SEO\ Spider.app/Contents/MacOS/ScreamingFrogSEOSpiderLauncher"
