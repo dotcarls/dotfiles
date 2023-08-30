@@ -4,6 +4,8 @@
 cask "docker"
 cask "visual-studio-code"
 cask "vagrant"
+cask "vlc"                          # `vlc`                     - best media player ever
+cask "rar"                          # `unrar`                   - work with rar archives
 
 #
 # optional
@@ -36,6 +38,12 @@ brew "shfmt"                        # `shfmt`                   - make ugly scri
 brew "tfenv"                        # `tfenv`                   - disguise outdated code by switching terraform versions
 brew "pyenv"                        # `pyenv`                   - why system python always broken? why?? WHY???
 brew "pipx"                         # `pipx`                    - AGAIN. WHY. SYSTEM. PYTHON. ALWAYS. BROKEN??? 
+brew "podman"                       # `podman`                  - superior alternative to docker
+brew "htmlq"                        # `htmlq`                   - like `jq` but for html
+brew "age"                          # `age`                     - modern encryption protocol
+brew "sops"                         # `sops`                    - secrets encrypted at rest
+brew "deno"                         # `deno`                    - modern typescript runtime
+brew "java"                         # `javac`                   - ew, java
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
