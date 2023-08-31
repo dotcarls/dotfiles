@@ -15,6 +15,10 @@ cask "spotify"                      # 🔊
 cask "iterm2"                       # `iterm`                   - hip cool replacement for Terminal.app
 cask "bot-framework-emulator"       # `bot-framework-emulator`  - interact with ms bot framework bots
 
+# taps
+# `rage` 
+tap "str4d.xyz/rage", "https://str4d.xyz/rage"
+
 # tools
 brew "zsh"                          # `zsh`                     - if Jason Bourne went to MIT
 brew "bash"                         # `bash`                    - because Apply daddy won't fight GPLv3
@@ -40,7 +44,8 @@ brew "pyenv"                        # `pyenv`                   - why system pyt
 brew "pipx"                         # `pipx`                    - AGAIN. WHY. SYSTEM. PYTHON. ALWAYS. BROKEN??? 
 brew "podman"                       # `podman`                  - superior alternative to docker
 brew "htmlq"                        # `htmlq`                   - like `jq` but for html
-brew "age"                          # `age`                     - modern encryption protocol
+brew "age"                          # `age`                     - file encryption
+brew "rage"                         # `rage`                    - like `age` but rust
 brew "sops"                         # `sops`                    - secrets encrypted at rest
 brew "deno"                         # `deno`                    - modern typescript runtime
 brew "java"                         # `javac`                   - ew, java
