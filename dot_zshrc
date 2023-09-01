@@ -31,5 +31,3 @@ else
   source ~/.p10k.zsh
 fi
 
-# Added by Krypton
-export GPG_TTY=$(tty)
