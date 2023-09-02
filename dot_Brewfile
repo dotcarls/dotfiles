@@ -51,6 +51,7 @@ brew "rage"                         # `rage`                    - like `age` but
 brew "sops"                         # `sops`                    - secrets encrypted at rest
 brew "deno"                         # `deno`                    - modern typescript runtime
 brew "java"                         # `javac`                   - ew, java
+brew "step"                         # `step`                    - selfhosted ca and cert tools
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
