@@ -32,6 +32,8 @@ brew "ripgrep"                      # `rg`                      - greps stuff re
 brew "glances"                      # `glances`                 - a quickview of top and ps
 brew "pandoc"                       # `pandoc`                  - turn one type of document into 50 different types of document
 brew "gnupg"                        # `gpg`                     - bob and alice are up to no good.. or are they?
+brew "gpg2"                         # `gpg2`                    - bob and alice but a little newer
+brew "pinentry-mac"                 # `pinentry`                - pinentry for macs
 brew "parallel"                     # `parallel`                - now the whole neighborhood is up to no good
 brew "azure-cli"                    # `az`                      - microsoft daddy
 brew "awscli"                       # `aws`                     - amazon daddy
