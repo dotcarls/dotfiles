@@ -46,6 +46,8 @@ brew "tfenv"                        # `tfenv`                   - disguise outda
 brew "pyenv"                        # `pyenv`                   - why system python always broken? why?? WHY???
 brew "pipx"                         # `pipx`                    - AGAIN. WHY. SYSTEM. PYTHON. ALWAYS. BROKEN??? 
 brew "podman"                       # `podman`                  - superior alternative to docker
+brew "jq"                           # `jq`                      - query json
+brew "yq"                           # `yq`                      - query yaml, csv, etc
 brew "htmlq"                        # `htmlq`                   - like `jq` but for html
 brew "age"                          # `age`                     - file encryption
 brew "rage"                         # `rage`                    - like `age` but rust
