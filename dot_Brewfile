@@ -1,6 +1,7 @@
 #
 # required
 #
+cask "utm"
 cask "docker"
 cask "visual-studio-code"
 cask "vagrant"

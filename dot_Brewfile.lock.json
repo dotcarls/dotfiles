@@ -80,6 +80,12 @@
         "options": {
           "full_name": "rar"
         }
+      },
+      "utm": {
+        "version": "4.4.4",
+        "options": {
+          "full_name": "utm"
+        }
       }
     },
     "brew": {
