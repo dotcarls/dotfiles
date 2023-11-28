@@ -11,7 +11,7 @@
         }
       },
       "hashicorp/tap": {
-        "revision": "5f7fe29d491a490396443978756146c1734ca578"
+        "revision": "02b5182414cbc360ff8739ed5a049e0b47c436ed"
       }
     },
     "cask": {
