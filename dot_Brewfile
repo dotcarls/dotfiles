@@ -1,10 +1,10 @@
 #
 # required
 #
-cask "utm"
-cask "docker"
-cask "visual-studio-code"
-cask "vagrant"
+cask "utm"                          # `utm`                     - vms by qemu
+cask "docker"                       # `docker`                  - containers by docker                  
+cask "visual-studio-code"           # `code`                    - ide by ms
+cask "vagrant"                      # `vagrant`                 - cli for vms
 cask "vlc"                          # `vlc`                     - best media player ever
 cask "rar"                          # `unrar`                   - work with rar archives
 
