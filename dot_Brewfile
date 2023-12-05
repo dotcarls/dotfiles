@@ -15,7 +15,7 @@ cask "rar"                          # `unrar`                   - work with rar 
 cask "spotify"                      # 🔊
 cask "iterm2"                       # `iterm`                   - hip cool replacement for Terminal.app
 cask "bot-framework-emulator"       # `bot-framework-emulator`  - interact with ms bot framework bots
-
+cask "chromium"                     # `chromium`                - chrome without the big goog
 # taps
 # `rage` 
 tap "str4d.xyz/rage", "https://str4d.xyz/rage"
