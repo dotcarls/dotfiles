@@ -1715,6 +1715,20 @@
             }
           }
         }
+      },
+      "diff-so-fancy": {
+        "version": "1.4.4",
+        "bottle": {
+          "rebuild": 0,
+          "root_url": "https://ghcr.io/v2/homebrew/core",
+          "files": {
+            "all": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/diff-so-fancy/blobs/sha256:0a4e3b0b333e0fb2f2ea0f6b3ddaa2d2f024583541238975c39f0008ea7044eb",
+              "sha256": "0a4e3b0b333e0fb2f2ea0f6b3ddaa2d2f024583541238975c39f0008ea7044eb"
+            }
+          }
+        }
       }
     },
     "mas": {
@@ -1732,7 +1746,7 @@
       },
       "Microsoft Outlook": {
         "id": "985367838",
-        "version": "16.79.1"
+        "version": "16.79.2"
       }
     }
   },
