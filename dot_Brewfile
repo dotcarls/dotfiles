@@ -15,7 +15,9 @@ cask "rar"                          # `unrar`                   - work with rar 
 cask "spotify"                      # 🔊
 cask "iterm2"                       # `iterm`                   - hip cool replacement for Terminal.app
 cask "bot-framework-emulator"       # `bot-framework-emulator`  - interact with ms bot framework bots
-cask "chromium"                     # `chromium`                - chrome without the big goog
+cask "google-chrome"                # `chrome`                  - browser by the goog
+cask "discord"                      # `discord`                 - [voice]chat with friends
+
 # taps
 # `rage` 
 tap "str4d.xyz/rage", "https://str4d.xyz/rage"
@@ -56,9 +58,16 @@ brew "sops"                         # `sops`                    - secrets encryp
 brew "deno"                         # `deno`                    - modern typescript runtime
 brew "java"                         # `javac`                   - ew, java
 brew "step"                         # `step`                    - selfhosted ca and cert tools
+brew "mas"                          # `mas`                     - cli for downloading apps from the Mac App Store
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
 cask "font-mononoki"
 cask "font-mononoki-nerd-font"
 cask "font-hack-nerd-font"
+
+# mac app store apps
+mas "Aiko", id: 1672085276                # `aiko`                    - on-machine AI transcription
+mas "Actions", id: 1586435171             # `actions`                 - automate apple stuff
+mas "Hyperduck", id: 6444667067           # `hyperduck`               - airdrop but for everyone
+mas "Microsoft Outlook", id: 985367838    # `outlook`                 - emails from m$
