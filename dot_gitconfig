@@ -3,7 +3,7 @@
     email = tim.carlson@gmail.com
 
 [includeIf "gitdir:Work/"]
-    path = /Users/tcarlson/.zenv/.gitconfig-work
+    path = /Users/ticarlso/.zenv/.gitconfig-work
 
 [core]
     editor = code --wait
