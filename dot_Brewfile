@@ -59,6 +59,7 @@ brew "deno"                         # `deno`                    - modern typescr
 brew "java"                         # `javac`                   - ew, java
 brew "step"                         # `step`                    - selfhosted ca and cert tools
 brew "mas"                          # `mas`                     - cli for downloading apps from the Mac App Store
+brew "diff-so-fancy"                # `diff-so-fancy`           - fancy diff output
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
