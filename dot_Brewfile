@@ -64,6 +64,7 @@ brew "step"                         # `step`                    - selfhosted ca 
 brew "mas"                          # `mas`                     - cli for downloading apps from the Mac App Store
 brew "diff-so-fancy"                # `diff-so-fancy`           - fancy diff output
 brew "serialosc"                    # `serialosc`               - monome usb 
+brew "selenium-server"              # `selenium`                - headless browser stuff
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"

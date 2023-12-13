@@ -1806,6 +1806,50 @@
             }
           }
         }
+      },
+      "selenium-server": {
+        "version": "4.15.0",
+        "bottle": {
+          "rebuild": 0,
+          "root_url": "https://ghcr.io/v2/homebrew/core",
+          "files": {
+            "arm64_sonoma": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/selenium-server/blobs/sha256:068bbd7f8a7deb14348608feb703b372e2d28b196572469090a06617bc0b4cad",
+              "sha256": "068bbd7f8a7deb14348608feb703b372e2d28b196572469090a06617bc0b4cad"
+            },
+            "arm64_ventura": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/selenium-server/blobs/sha256:068bbd7f8a7deb14348608feb703b372e2d28b196572469090a06617bc0b4cad",
+              "sha256": "068bbd7f8a7deb14348608feb703b372e2d28b196572469090a06617bc0b4cad"
+            },
+            "arm64_monterey": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/selenium-server/blobs/sha256:068bbd7f8a7deb14348608feb703b372e2d28b196572469090a06617bc0b4cad",
+              "sha256": "068bbd7f8a7deb14348608feb703b372e2d28b196572469090a06617bc0b4cad"
+            },
+            "sonoma": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/selenium-server/blobs/sha256:068bbd7f8a7deb14348608feb703b372e2d28b196572469090a06617bc0b4cad",
+              "sha256": "068bbd7f8a7deb14348608feb703b372e2d28b196572469090a06617bc0b4cad"
+            },
+            "ventura": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/selenium-server/blobs/sha256:068bbd7f8a7deb14348608feb703b372e2d28b196572469090a06617bc0b4cad",
+              "sha256": "068bbd7f8a7deb14348608feb703b372e2d28b196572469090a06617bc0b4cad"
+            },
+            "monterey": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/selenium-server/blobs/sha256:068bbd7f8a7deb14348608feb703b372e2d28b196572469090a06617bc0b4cad",
+              "sha256": "068bbd7f8a7deb14348608feb703b372e2d28b196572469090a06617bc0b4cad"
+            },
+            "x86_64_linux": {
+              "cellar": ":any_skip_relocation",
+              "url": "https://ghcr.io/v2/homebrew/core/selenium-server/blobs/sha256:38ffaaa85b8a3a278f72fcc4b90bc4b6f3e20c7781bba976fcd0f39df4b1e4ac",
+              "sha256": "38ffaaa85b8a3a278f72fcc4b90bc4b6f3e20c7781bba976fcd0f39df4b1e4ac"
+            }
+          }
+        }
       }
     },
     "mas": {
