@@ -18,6 +18,7 @@ cask "bot-framework-emulator"       # `bot-framework-emulator`  - interact with 
 cask "google-chrome"                # `chrome`                  - browser by the goog
 cask "discord"                      # `discord`                 - [voice]chat with friends
 cask "processing"                   # `processing`              - monome programming
+cask "vcv-rack"                     # `vcv-rack`                - monome visual plugin
 
 # taps
 # `rage` 

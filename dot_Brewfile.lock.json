@@ -110,6 +110,12 @@
         "options": {
           "full_name": "processing"
         }
+      },
+      "vcv-rack": {
+        "version": "2.4.1",
+        "options": {
+          "full_name": "vcv-rack"
+        }
       }
     },
     "brew": {
