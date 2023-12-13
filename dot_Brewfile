@@ -17,6 +17,7 @@ cask "iterm2"                       # `iterm`                   - hip cool repla
 cask "bot-framework-emulator"       # `bot-framework-emulator`  - interact with ms bot framework bots
 cask "google-chrome"                # `chrome`                  - browser by the goog
 cask "discord"                      # `discord`                 - [voice]chat with friends
+cask "processing"                   # `processing`              - monome programming
 
 # taps
 # `rage` 

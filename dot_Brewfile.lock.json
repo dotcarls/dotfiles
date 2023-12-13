@@ -104,6 +104,12 @@
         "options": {
           "full_name": "discord"
         }
+      },
+      "processing": {
+        "version": "4.3,1293",
+        "options": {
+          "full_name": "processing"
+        }
       }
     },
     "brew": {
