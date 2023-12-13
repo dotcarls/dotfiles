@@ -7,6 +7,7 @@ cask "visual-studio-code"           # `code`                    - ide by ms
 cask "vagrant"                      # `vagrant`                 - cli for vms
 cask "vlc"                          # `vlc`                     - best media player ever
 cask "rar"                          # `unrar`                   - work with rar archives
+cask "chromedriver"                 # `chromedriver`            - headless chrome selenium driver
 
 #
 # optional

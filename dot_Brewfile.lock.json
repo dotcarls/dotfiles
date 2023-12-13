@@ -11,7 +11,7 @@
         }
       },
       "hashicorp/tap": {
-        "revision": "0e115f0e732b2a1aa2dc68607f68f995052129bc"
+        "revision": "46440a1cb974cb2689e115aff619bef14f16e56e"
       }
     },
     "cask": {
@@ -115,6 +115,12 @@
         "version": "2.4.1",
         "options": {
           "full_name": "vcv-rack"
+        }
+      },
+      "chromedriver": {
+        "version": "120.0.6099.71",
+        "options": {
+          "full_name": "chromedriver"
         }
       }
     },
