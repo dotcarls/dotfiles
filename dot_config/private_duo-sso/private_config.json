@@ -1,0 +1,15 @@
+{
+  "url": "https://cloudsso.cisco.com",
+  "partner_spid": "https://signin.aws.amazon.com/saml",
+  "aws_urn": "https://signin.aws.amazon.com/saml",
+  "session_duration_seconds": 3600,
+  "profiles": {
+    "default": {
+      "aws_account_id": 936879674857,
+      "aws_role_name": "devops",
+      "session_duration_seconds": 3600
+    }
+  },
+  "auth_method": "browser",
+  "debug": true
+}
