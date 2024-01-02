@@ -20,6 +20,7 @@ cask "google-chrome"                # `chrome`                  - browser by the
 cask "discord"                      # `discord`                 - [voice]chat with friends
 cask "processing"                   # `processing`              - monome programming
 cask "vcv-rack"                     # `vcv-rack`                - monome visual plugin
+cask "qflipper"                     # `qflipper`                - flipper zero firmware flasher
 
 # taps
 # `rage` 
