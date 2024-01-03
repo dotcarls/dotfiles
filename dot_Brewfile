@@ -21,6 +21,7 @@ cask "discord"                      # `discord`                 - [voice]chat wi
 cask "processing"                   # `processing`              - monome programming
 cask "vcv-rack"                     # `vcv-rack`                - monome visual plugin
 cask "qflipper"                     # `qflipper`                - flipper zero firmware flasher
+cask "arduino-ide"                  # `arduino-ide`             - arduino firmware flasher
 
 # taps
 # `rage` 
