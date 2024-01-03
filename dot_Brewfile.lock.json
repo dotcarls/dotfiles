@@ -134,6 +134,12 @@
         "options": {
           "full_name": "arduino-ide"
         }
+      },
+      "silicon-labs-vcp-driver": {
+        "version": "6.0.2",
+        "options": {
+          "full_name": "silicon-labs-vcp-driver"
+        }
       }
     },
     "brew": {

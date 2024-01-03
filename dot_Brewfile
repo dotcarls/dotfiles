@@ -22,6 +22,7 @@ cask "processing"                   # `processing`              - monome program
 cask "vcv-rack"                     # `vcv-rack`                - monome visual plugin
 cask "qflipper"                     # `qflipper`                - flipper zero firmware flasher
 cask "arduino-ide"                  # `arduino-ide`             - arduino firmware flasher
+cask "silicon-labs-vcp-driver"      # `silicon-labs-vcp-driver` - CP210x USB to UART Bridge VCP Driver
 
 # taps
 # `rage` 
