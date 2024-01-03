@@ -5,13 +5,13 @@
         "revision": "3074f5af3123ed481151a1e2be58aad45b280acf"
       },
       "str4d.xyz/rage": {
-        "revision": "59d02980b789e5f971dc25e92b319f1ca59862ee",
+        "revision": "4bac30b7c3587f4524cb506294fb54debf2751c3",
         "options": {
           "clone_target": "https://str4d.xyz/rage"
         }
       },
       "hashicorp/tap": {
-        "revision": "80733f313401c40e9caeecaee574127aad38ca64"
+        "revision": "022652f772ca9d6151fdc02e13f34ba016b750f0"
       }
     },
     "cask": {
@@ -139,6 +139,12 @@
         "version": "6.0.2",
         "options": {
           "full_name": "silicon-labs-vcp-driver"
+        }
+      },
+      "rectangle": {
+        "version": "0.75",
+        "options": {
+          "full_name": "rectangle"
         }
       }
     },
