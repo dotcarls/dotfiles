@@ -24,6 +24,7 @@ pathdirs=(
     $HOME/.local/share/n/bin
     $HOME/.pyenv/shims
     $HOME/Scratch/bin
+    $HOME/src/github.com/containers/gvisor-tap-vsock/bin
 )
 
 # Add directories which exist to the path
