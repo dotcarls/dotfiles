@@ -1,0 +1,23 @@
+#!/usr/bin/env zsh
+#
+# Jekyll related functions and aliases
+#
+
+flipper-mount-install() {
+    local basepath="$HOME/src/github.com/dakhnod/fzfs"
+    mkdir -p $basepath
+    git clone --recursive git@github.com:dakhnod/fzfs.git $basepath
+    pushd $basepath
+    python3 -m venv venv
+    . venv/bin/activate
+    pip install -r requirements.txt
+    popd
+}
+
+flipper-mount-usb() {
+    local basepath="$HOME/src/github.com/dakhnod/fzfs"
+    local device="/dev/cu.usbmodemflip_Flipbb1"
+    local mountpoint="/Volumes/FlipBB"
+    source $basepath/venv/bin/activate
+    $basepath/venv/bin/python3 $basepath/fzfs.py -d $device -m $mountpoint
+}
