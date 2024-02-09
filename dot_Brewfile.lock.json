@@ -149,6 +149,12 @@
         "options": {
           "full_name": "rectangle"
         }
+      },
+      "macfuse": {
+        "version": "4.6.0",
+        "options": {
+          "full_name": "macfuse"
+        }
       }
     },
     "brew": {
