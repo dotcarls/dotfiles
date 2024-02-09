@@ -16,8 +16,9 @@ flipper-mount-install() {
 
 flipper-mount-usb() {
     local basepath="$HOME/src/github.com/dakhnod/fzfs"
-    local device="/dev/cu.usbmodemflip_Flipbb1"
-    local mountpoint="/Volumes/FlipBB"
+    local device="/dev/tty.usbmodemflip_Flipbb1"
+    local mountpoint="$HOME/Volumes/FlipBB"
+    mkdir -p $mountpoint
     source $basepath/venv/bin/activate
     $basepath/venv/bin/python3 $basepath/fzfs.py -d $device -m $mountpoint
 }
