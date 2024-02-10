@@ -24,6 +24,8 @@ cask "arduino-ide"                  # `arduino-ide`             - arduino firmwa
 cask "silicon-labs-vcp-driver"      # `silicon-labs-vcp-driver` - CP210x USB to UART Bridge VCP Driver
 cask "rectangle"                    # `rectangle`               - window snapping
 cask "macfuse"                      # `libfuse`                 - FUSE for mac
+cask "gb-studio"                    # `gb-studio`               - create homebrew gameboy games
+cask "pixelorama"                   # `pixelorama`              - sprite editor
 
 # taps
 # `rage` 
