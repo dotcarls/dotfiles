@@ -77,6 +77,7 @@ brew "mas"                          # `mas`                     - cli for downlo
 brew "diff-so-fancy"                # `diff-so-fancy`           - fancy diff output
 brew "serialosc"                    # `serialosc`               - monome usb 
 brew "selenium-server"              # `selenium`                - headless browser stuff
+brew "ansible"                      # `ansible`                 - server provisioner
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
