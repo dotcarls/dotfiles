@@ -15,6 +15,9 @@
       },
       "cfergeau/crc": {
         "revision": "abfb526da66c3ace838f153899752b03c5888d26"
+      },
+      "cyberark/tools": {
+        "revision": "663d19e2a0e9a545380a287cff190b401447d25d"
       }
     },
     "cask": {
@@ -1932,12 +1935,16 @@
             }
           }
         }
+      },
+      "conjur-cli": {
+        "version": "8.0.12",
+        "bottle": false
       }
     },
     "mas": {
       "Aiko": {
         "id": "1672085276",
-        "version": "1.5.3"
+        "version": "1.6.0"
       },
       "Actions": {
         "id": "1586435171",
@@ -1945,11 +1952,11 @@
       },
       "Hyperduck": {
         "id": "6444667067",
-        "version": "1.0.7"
+        "version": "1.1.0"
       },
       "Microsoft Outlook": {
         "id": "985367838",
-        "version": "16.81.2"
+        "version": "16.82.1"
       },
       "Koala Sampler": null
     }

@@ -37,6 +37,10 @@ tap "hashicorp/tap"
 tap "cfergeau/crc"
 brew "vfkit"
 
+# conjur
+tap "cyberark/tools"
+brew "conjur-cli"
+
 # tools
 brew "zsh"                          # `zsh`                     - if Jason Bourne went to MIT
 brew "bash"                         # `bash`                    - because Apply daddy won't fight GPLv3
