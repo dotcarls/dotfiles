@@ -65,7 +65,6 @@ brew "pyenv"                        # `pyenv`                   - why system pyt
 brew "pipx"                         # `pipx`                    - AGAIN. WHY. SYSTEM. PYTHON. ALWAYS. BROKEN??? 
 brew "podman"                       # `podman`                  - superior alternative to docker
 brew "podman-compose"               # `podman-compose`          - superior alternative to docker-compose
-brew "vfkit"                        # `vfkit`                   - cli for applehv
 brew "jq"                           # `jq`                      - query json
 brew "yq"                           # `yq`                      - query yaml, csv, etc
 brew "htmlq"                        # `htmlq`                   - like `jq` but for html
