@@ -82,6 +82,7 @@ brew "diff-so-fancy"                # `diff-so-fancy`           - fancy diff out
 brew "serialosc"                    # `serialosc`               - monome usb 
 brew "selenium-server"              # `selenium`                - headless browser stuff
 brew "ansible"                      # `ansible`                 - server provisioner
+brew "oras"                         # `oras`                    - oci registry as storage
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
