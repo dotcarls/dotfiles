@@ -84,6 +84,7 @@ brew "selenium-server"              # `selenium`                - headless brows
 brew "ansible"                      # `ansible`                 - server provisioner
 brew "oras"                         # `oras`                    - oci registry as storage
 brew "terraform-docs"               # `terraform-docs`          - generate `terraform` documentation
+brew "tflint"                       # `tflint`                  - terraform linter
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
