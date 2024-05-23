@@ -27,7 +27,7 @@ cask "macfuse"                      # `libfuse`                 - FUSE for mac
 cask "gb-studio"                    # `gb-studio`               - create homebrew gameboy games
 cask "pixelorama"                   # `pixelorama`              - sprite editor
 cask "keymapp"                      # `keymapp`                 - ZSA keyboard flasher
-
+cask "google-cloud-sdk"             # `gcloud`                  - google cloud sdk
 # taps
 # `rage` 
 tap "str4d.xyz/rage", "https://str4d.xyz/rage"
@@ -83,6 +83,7 @@ brew "serialosc"                    # `serialosc`               - monome usb
 brew "selenium-server"              # `selenium`                - headless browser stuff
 brew "ansible"                      # `ansible`                 - server provisioner
 brew "oras"                         # `oras`                    - oci registry as storage
+brew "terraform-docs"               # `terraform-docs`          - generate `terraform` documentation
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
