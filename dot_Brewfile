@@ -86,6 +86,7 @@ brew "oras"                         # `oras`                    - oci registry a
 brew "terraform-docs"               # `terraform-docs`          - generate `terraform` documentation
 brew "tflint"                       # `tflint`                  - terraform linter
 brew "derailed/k9s/k9s"             # `k9s`                     - multi cluster kubectl
+brew "mkdocs"                       # `mkdocs`                  - docs generator
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
