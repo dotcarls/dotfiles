@@ -1,2 +1,5 @@
 [user]
 	email = ticarlso@cisco.com
+
+[url "ssh://git@github.com/"]
+	insteadOf = https://github.com/
