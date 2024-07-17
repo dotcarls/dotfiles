@@ -37,9 +37,13 @@ tap "hashicorp/tap"
 tap "cfergeau/crc"
 brew "vfkit"
 
-# conjur
+# `conjur`
 tap "cyberark/tools"
 brew "conjur-cli"
+
+# `packer`
+tap "hashicorp/tap"
+brew "hashicorp/tap/packer"
 
 # tools
 brew "zsh"                          # `zsh`                     - if Jason Bourne went to MIT
