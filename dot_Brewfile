@@ -92,6 +92,8 @@ brew "tflint"                       # `tflint`                  - terraform lint
 brew "derailed/k9s/k9s"             # `k9s`                     - multi cluster kubectl
 brew "mkdocs"                       # `mkdocs`                  - docs generator
 brew "vault"                        # `vault`                   - secrets n such
+brew "go-task"                      # `task`                    - newfangled `make`
+brew "gh"                           # `gh`                      - github cli
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
