@@ -95,6 +95,7 @@ brew "vault"                        # `vault`                   - secrets n such
 brew "go-task"                      # `task`                    - newfangled `make`
 brew "gh"                           # `gh`                      - github cli
 brew "act"                          # `act`                     - github actions locally
+brew "gum"                          # `gum`                     - go powered bash scripts
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
 cask "font-mononoki"
