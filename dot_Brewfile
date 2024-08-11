@@ -94,7 +94,7 @@ brew "mkdocs"                       # `mkdocs`                  - docs generator
 brew "vault"                        # `vault`                   - secrets n such
 brew "go-task"                      # `task`                    - newfangled `make`
 brew "gh"                           # `gh`                      - github cli
-
+brew "act"                          # `act`                     - github actions locally
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
 cask "font-mononoki"
