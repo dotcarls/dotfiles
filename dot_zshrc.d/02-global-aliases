@@ -16,3 +16,5 @@ alias glances="glances --theme-white"
 
 # Screaming Frog SEO Spider
 alias sfseospider="/Applications/Screaming\ Frog\ SEO\ Spider.app/Contents/MacOS/ScreamingFrogSEOSpiderLauncher"
+
+alias hs-prod-eks-use2-1="aws eks --profile hypershield-production-admin update-kubeconfig --name hs-prod-eks-use2-1 --region us-east-2 --alias hs-prod-eks-use2-1"

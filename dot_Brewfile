@@ -64,6 +64,7 @@ brew "parallel"                     # `parallel`                - now the whole 
 brew "azure-cli"                    # `az`                      - microsoft daddy
 brew "awscli"                       # `aws`                     - amazon daddy
 brew "kubectl"                      # `kubectl`                 - kubernetes is fun
+brew "helm"                         # `helm`                    - deploy stuff to kubernetes
 brew "dive"                         # `dive`                    - inspect docker layers
 brew "go"                           # `go`                      - language for kewl kids
 brew "shfmt"                        # `shfmt`                   - make ugly scripts less ugly

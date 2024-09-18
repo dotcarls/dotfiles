@@ -1,5 +1,16 @@
-[user]
-	email = ticarlso@cisco.com
 
 [url "ssh://git@github.com/"]
 	insteadOf = https://github.com/
+
+[user]
+	email = ticarlso@cisco.com
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOoHNM9VA1Qjcvykgc9wXlZUWC7Jem0bq1oVZWsdLTg1
+
+[gpg]
+  format = ssh
+
+[gpg "ssh"]
+  program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
+
+[commit]
+  gpgsign = true
