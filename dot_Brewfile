@@ -97,6 +97,8 @@ brew "go-task"                      # `task`                    - newfangled `ma
 brew "gh"                           # `gh`                      - github cli
 brew "act"                          # `act`                     - github actions locally
 brew "gum"                          # `gum`                     - go powered bash scripts
+brew "qemu"                         # `qemu-*`                  - virtualize all the things
+
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
 cask "font-mononoki"

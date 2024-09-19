@@ -1,27 +1,27 @@
 [user]
-  name = Tim Carlson
-  email = tim.carlson@gmail.com
+    name = Tim Carlson
+    email = tim.carlson@gmail.com
 
 [includeIf "gitdir:Work/"]
-  path = /Users/ticarlso/.zenv/.gitconfig-work
+    path = /Users/ticarlso/.zenv/.gitconfig-work
 
 [core]
-  editor = code --wait
+    editor = code --wait
 
 [diff]
-  tool = default-difftool
+    tool = default-difftool
 [difftool "default-difftool"]
-  cmd = code --wait --diff $LOCAL $REMOTE
+    cmd = code --wait --diff $LOCAL $REMOTE
 
 [merge]
-  tool = vscode
+    tool = vscode
 [mergetool "vscode"]
-  cmd = code --wait $MERGED
+    cmd = code --wait $MERGED
 
 [pull]
-  rebase = true
+    rebase = true
 [submodule]
-  recurse = true
+    recurse = true
 
 [url "ssh://git@github.com/"]
-  insteadOf = https://github.com/
+    insteadOf = https://github.com/
