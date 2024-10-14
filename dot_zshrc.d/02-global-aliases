@@ -1,5 +1,8 @@
 #!/usr/bin/env zsh
 
+# Command Aliases
+alias python="/usr/bin/python3"
+
 # Navigation shortcuts
 alias cdz="cd ~/Work/src/zenvironment"
 
