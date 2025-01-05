@@ -99,6 +99,7 @@ brew "gh"                           # `gh`                      - github cli
 brew "act"                          # `act`                     - github actions locally
 brew "gum"                          # `gum`                     - go powered bash scripts
 brew "qemu"                         # `qemu-*`                  - virtualize all the things
+brew "ext4fuse"                     # `ext4fuse`                - mount ext4 filesystems on mac
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 tap "homebrew/cask-fonts"
