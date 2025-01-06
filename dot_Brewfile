@@ -38,17 +38,22 @@ tap "hashicorp/tap"
 tap "cfergeau/crc"
 brew "vfkit"
 
-# `conjur`
-tap "cyberark/tools"
-brew "conjur-cli"
-
 # `packer`
 tap "hashicorp/tap"
 brew "hashicorp/tap/packer"
 
+# `k9s`
+tap "derailed/k9s"
+brew "derailed/k9s/k9s"
+
+# `vault`
+tap "hashicorp/tap"
+brew "hashicorp/tap/vault"
+
 # tools
 brew "zsh"                          # `zsh`                     - if Jason Bourne went to MIT
-brew "bash"                         # `bash`                    - because Apply daddy won't fight GPLv3
+brew "git"                          # `git`                     - git güd, apple daddy
+brew "bash"                         # `bash`                    - because apple daddy won't fight GPLv3
 brew "vim"                          # `vim`                     - for maximum improvedness
 brew "dust"                         # `dust`                    - a tree based `du` with a desert name
 brew "tealdeer"                     # `tldr`                    - rusty abbreviated manpages
@@ -91,25 +96,25 @@ brew "ansible"                      # `ansible`                 - server provisi
 brew "oras"                         # `oras`                    - oci registry as storage
 brew "terraform-docs"               # `terraform-docs`          - generate `terraform` documentation
 brew "tflint"                       # `tflint`                  - terraform linter
-brew "derailed/k9s/k9s"             # `k9s`                     - multi cluster kubectl
 brew "mkdocs"                       # `mkdocs`                  - docs generator
-brew "vault"                        # `vault`                   - secrets n such
 brew "go-task"                      # `task`                    - newfangled `make`
 brew "gh"                           # `gh`                      - github cli
 brew "act"                          # `act`                     - github actions locally
 brew "gum"                          # `gum`                     - go powered bash scripts
 brew "qemu"                         # `qemu-*`                  - virtualize all the things
-brew "ext4fuse"                     # `ext4fuse`                - mount ext4 filesystems on mac
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
-tap "homebrew/cask-fonts"
 cask "font-mononoki"
 cask "font-mononoki-nerd-font"
 cask "font-hack-nerd-font"
 
 # mac app store apps
-mas "Aiko", id: 1672085276                # `aiko`                    - on-machine AI transcription
-mas "Actions", id: 1586435171             # `actions`                 - automate apple stuff
-mas "Hyperduck", id: 6444667067           # `hyperduck`               - airdrop but for everyone
-mas "Microsoft Outlook", id: 985367838    # `outlook`                 - emails from m$
-mas "Koala Sampler", id: 1479881366       # `koala`                   - a simple sampler
+mas "Aiko", id: 1672085276                                  # `aiko`                    - on-machine AI transcription
+mas "Actions", id: 1586435171                               # `actions`                 - automate apple stuff
+mas "Hyperduck", id: 6444667067                             # `hyperduck`               - airdrop but for everyone
+mas "Microsoft Outlook", id: 985367838                      # `outlook`                 - emails from m$
+mas "Koala Sampler", id: 1479881366                         # `koala`                   - a simple sampler
+mas "Copilot: Track & Budget Money", id: 1447330651         # `copilot`                 - love the budget, fear the budget
+mas "Slack for Desktop", id: 803453959                      # `slack`                   - dancing parrots and sometimes chat
+mas "Messenger", id: 1480068668                             # `messenger`               - chat by zuckdaddy
+mas "Radarscope", id: 288419283                             # `radarscope`              - high-precision weather radar
