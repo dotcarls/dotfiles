@@ -28,6 +28,7 @@ cask "gb-studio"                    # `gb-studio`               - create homebre
 cask "pixelorama"                   # `pixelorama`              - sprite editor
 cask "keymapp"                      # `keymapp`                 - ZSA keyboard flasher
 cask "1password-cli"                # `op`                      - secrets and stuff
+cask "warp"                         # `warp`                    - modern terminal replacement
 
 # taps
 # `rage` 

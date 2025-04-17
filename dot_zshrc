@@ -31,3 +31,6 @@ else
   source ~/.p10k.zsh
 fi
 
+
+# Added by Windsurf
+export PATH="/Users/ticarlso/.codeium/windsurf/bin:$PATH"
