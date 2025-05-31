@@ -105,6 +105,7 @@ brew "gum"                          # `gum`                     - go powered bas
 brew "qemu"                         # `qemu-*`                  - virtualize all the things
 brew "cookiecutter"                 # `cookiecutter`            - pythonic templating tool
 brew "argocd"                       # `argocd`                  - deploy all the things
+brew "uv"                           # `uv`                      - pip but more better
 
 # fonts: https://github.com/Homebrew/homebrew-cask-fonts
 cask "font-mononoki"
