@@ -3,7 +3,16 @@
     email = tim.carlson@gmail.com
 
 [includeIf "gitdir:Work/"]
-    path = /Users/ticarlso/.zenv/.gitconfig-work
+    path = /Users/ticarlso/.config/git/.gitconfig-work
+
+[includeIf "gitdir:Work/github.com/cisco-sto/*"]
+    path = /Users/ticarlso/.config/git/.gitconfig-work-emu
+
+[includeIf "hasconfig:remote.*.url:git@github.com:cisco-sto/**"]
+    path = /Users/ticarlso/.config/git/.gitconfig-work-emu
+
+[includeIf "hasconfig:remote.*.url:https://github.com/cisco-sto/**"]
+    path = /Users/ticarlso/.config/git/.gitconfig-work-emu
 
 [core]
     editor = code --wait
@@ -32,3 +41,9 @@
 	smudge = git-lfs smudge -- %f
 	process = git-lfs filter-process
 	required = true
+[credential "https://github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
+[credential "https://gist.github.com"]
+	helper = 
+	helper = !/opt/homebrew/bin/gh auth git-credential
