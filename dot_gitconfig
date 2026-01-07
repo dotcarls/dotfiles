@@ -5,6 +5,16 @@
 [includeIf "gitdir:Work/"]
     path = /Users/ticarlso/.config/git/.gitconfig-work
 
+[includeIf "gitdir:src/github.com/isovalent/*"]
+    path = /Users/ticarlso/.config/git/.gitconfig-work
+
+[includeIf "hasconfig:remote.*.url:git@github.com:isovalent/**"]
+    path = /Users/ticarlso/.config/git/.gitconfig-work
+
+[includeIf "hasconfig:remote.*.url:https://github.com/isovalent/**"]
+    path = /Users/ticarlso/.config/git/.gitconfig-work
+
+
 [includeIf "gitdir:Work/github.com/cisco-sto/*"]
     path = /Users/ticarlso/.config/git/.gitconfig-work-emu
 
