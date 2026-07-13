@@ -25,6 +25,7 @@ pathdirs=(
     $HOME/.pyenv/shims
     $HOME/Scratch/bin
     $HOME/src/github.com/containers/gvisor-tap-vsock/bin
+    $HOME/.local/bin
 )
 
 # Add directories which exist to the path
@@ -43,4 +44,3 @@ export N_PREFIX=~/.local/share/n
 export PYENV_ROOT="$HOME/.pyenv"
 [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
-

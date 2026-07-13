@@ -1,0 +1,29 @@
+#!/usr/bin/env python3
+import json
+import sys
+
+HELPER = "op-artifactory"
+HOSTS = {
+    "artifactory.devhub-cloud.cisco.com",
+    "devhub-docker.cisco.com",
+    "devhub.cisco.com",
+    "dockerhub.cisco.com",
+    "engci-maven-master.cisco.com",
+    "engci-maven.cisco.com",
+}
+
+raw = sys.stdin.read().strip()
+config = json.loads(raw) if raw else {}
+
+auths = config.setdefault("auths", {})
+for key in list(auths):
+    normalized = key.removeprefix("https://").removeprefix("http://").rstrip("/")
+    if normalized in HOSTS:
+        del auths[key]
+
+helpers = config.setdefault("credHelpers", {})
+for host in sorted(HOSTS):
+    helpers[host] = HELPER
+
+json.dump(config, sys.stdout, indent=2, sort_keys=True)
+sys.stdout.write("\n")

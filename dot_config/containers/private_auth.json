@@ -1,0 +1,11 @@
+{
+  "auths": {},
+  "credHelpers": {
+    "artifactory.devhub-cloud.cisco.com": "op-artifactory",
+    "devhub-docker.cisco.com": "op-artifactory",
+    "devhub.cisco.com": "op-artifactory",
+    "dockerhub.cisco.com": "op-artifactory",
+    "engci-maven-master.cisco.com": "op-artifactory",
+    "engci-maven.cisco.com": "op-artifactory"
+  }
+}

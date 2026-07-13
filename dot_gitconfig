@@ -1,31 +1,83 @@
 [user]
     name = Tim Carlson
     email = tim.carlson@gmail.com
+    signingKey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOkcbmW6Rzpg6mtOpkEBjE9yXXtkf6cnFA+TO2y1lUAC
+    useConfigOnly = true
 
-[includeIf "gitdir:Work/"]
-    path = /Users/ticarlso/.config/git/.gitconfig-work
+# Directory defaults cover repositories before their first remote is added.
+[includeIf "gitdir:~/Work/"]
+    path = ~/.config/git/.gitconfig-work
 
-[includeIf "gitdir:src/github.com/isovalent/*"]
-    path = /Users/ticarlso/.config/git/.gitconfig-work
+# EMU repositories override the broader Work directory identity.
+[includeIf "gitdir:~/Work/src/github.com/cisco-sto/"]
+    path = ~/.config/git/.gitconfig-work-emu
+[includeIf "gitdir:~/Work/src/github.com/projv-engprod/"]
+    path = ~/.config/git/.gitconfig-work-emu
+
+# Remote-based rules keep identity selection correct outside the usual checkout tree.
+[includeIf "hasconfig:remote.*.url:git@github.com:cisco-hypershield/**"]
+    path = ~/.config/git/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/cisco-hypershield/**"]
+    path = ~/.config/git/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:https://github.com/cisco-hypershield/**"]
+    path = ~/.config/git/.gitconfig-work
 
 [includeIf "hasconfig:remote.*.url:git@github.com:isovalent/**"]
-    path = /Users/ticarlso/.config/git/.gitconfig-work
-
+    path = ~/.config/git/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/isovalent/**"]
+    path = ~/.config/git/.gitconfig-work
 [includeIf "hasconfig:remote.*.url:https://github.com/isovalent/**"]
-    path = /Users/ticarlso/.config/git/.gitconfig-work
+    path = ~/.config/git/.gitconfig-work
 
+[includeIf "hasconfig:remote.*.url:git@github.com:cisco-eti/**"]
+    path = ~/.config/git/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/cisco-eti/**"]
+    path = ~/.config/git/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:https://github.com/cisco-eti/**"]
+    path = ~/.config/git/.gitconfig-work
 
-[includeIf "gitdir:Work/github.com/cisco-sto/*"]
-    path = /Users/ticarlso/.config/git/.gitconfig-work-emu
+[includeIf "hasconfig:remote.*.url:git@cto-github.cisco.com:**"]
+    path = ~/.config/git/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:ssh://git@cto-github.cisco.com/**"]
+    path = ~/.config/git/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:https://cto-github.cisco.com/**"]
+    path = ~/.config/git/.gitconfig-work
+
+[includeIf "hasconfig:remote.*.url:git@wwwin-github.cisco.com:**"]
+    path = ~/.config/git/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:ssh://git@wwwin-github.cisco.com/**"]
+    path = ~/.config/git/.gitconfig-work
+[includeIf "hasconfig:remote.*.url:https://wwwin-github.cisco.com/**"]
+    path = ~/.config/git/.gitconfig-work
 
 [includeIf "hasconfig:remote.*.url:git@github.com:cisco-sto/**"]
-    path = /Users/ticarlso/.config/git/.gitconfig-work-emu
-
+    path = ~/.config/git/.gitconfig-work-emu
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/cisco-sto/**"]
+    path = ~/.config/git/.gitconfig-work-emu
 [includeIf "hasconfig:remote.*.url:https://github.com/cisco-sto/**"]
-    path = /Users/ticarlso/.config/git/.gitconfig-work-emu
+    path = ~/.config/git/.gitconfig-work-emu
+
+[includeIf "hasconfig:remote.*.url:git@github.com:projv-engprod/**"]
+    path = ~/.config/git/.gitconfig-work-emu
+[includeIf "hasconfig:remote.*.url:ssh://git@github.com/projv-engprod/**"]
+    path = ~/.config/git/.gitconfig-work-emu
+[includeIf "hasconfig:remote.*.url:https://github.com/projv-engprod/**"]
+    path = ~/.config/git/.gitconfig-work-emu
 
 [core]
     editor = code --wait
+    sshCommand = ssh -F ~/.config/git/ssh_config
+
+[ssh]
+    variant = ssh
+
+[gpg]
+    format = ssh
+[gpg "ssh"]
+    program = /Applications/1Password.app/Contents/MacOS/op-ssh-sign
+    allowedSignersFile = ~/.config/git/allowed_signers
+[commit]
+    gpgSign = true
 
 [diff]
     tool = default-difftool
@@ -44,16 +96,43 @@
 
 [url "ssh://git@github.com/"]
     insteadOf = https://github.com/
+
 [init]
-	defaultBranch = main
+    defaultBranch = main
+
 [filter "lfs"]
-	clean = git-lfs clean -- %f
-	smudge = git-lfs smudge -- %f
-	process = git-lfs filter-process
-	required = true
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
 [credential "https://github.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
+    helper =
+    helper = !/opt/homebrew/bin/gh auth git-credential
 [credential "https://gist.github.com"]
-	helper = 
-	helper = !/opt/homebrew/bin/gh auth git-credential
+    helper =
+    helper = !/opt/homebrew/bin/gh auth git-credential
+
+# JFrog/Artifactory credentials are resolved from exact Employee-vault items.
+# The helper refuses unknown hosts, so a token is never reused across JPDs.
+[credential "https://dockerhub.cisco.com"]
+    helper =
+    helper = op-artifactory
+[credential "https://engci-maven.cisco.com"]
+    helper =
+    helper = op-artifactory
+[credential "https://engci-maven-master.cisco.com"]
+    helper =
+    helper = op-artifactory
+[credential "https://artifactory.devhub-cloud.cisco.com"]
+    helper =
+    helper = op-artifactory
+[credential "https://devhub.cisco.com"]
+    helper =
+    helper = op-artifactory
+[credential "https://devhub-docker.cisco.com"]
+    helper =
+    helper = op-artifactory
+[credential "https://gitlfs.cisco.com"]
+    helper =
+    helper = op-artifactory

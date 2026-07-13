@@ -1,0 +1,28 @@
+# Git-only SSH policy. Git invokes this file through core.sshCommand, while the
+# user's regular SSH configuration remains available for all other hosts.
+Host github.com
+    HostName github.com
+    User git
+    IdentityAgent "~/Library/Group Containers/2BUA8C4S2C.com.1password/t/agent.sock"
+    IdentitiesOnly yes
+    ControlMaster no
+    ControlPath none
+    ControlPersist no
+
+# OpenSSH 10's Match command condition sees Git's requested repository path,
+# allowing canonical github.com URLs to select an identity by organization.
+Match host github.com command "*cisco-hypershield/*,*cisco-eti/*,*isovalent/*"
+    IdentityFile ~/.config/git/keys/github-work.pub
+
+Match host github.com command "*cisco-sto/*,*projv-engprod/*"
+    IdentityFile ~/.config/git/keys/github-work-emu.pub
+
+Match host github.com command "*,!*cisco-hypershield/*,!*cisco-eti/*,!*isovalent/*,!*cisco-sto/*,!*projv-engprod/*"
+    IdentityFile ~/.config/git/keys/github-personal.pub
+
+# Keep direct diagnostics such as `ssh -T git@github.com` deterministic.
+Match host github.com command ""
+    IdentityFile ~/.config/git/keys/github-personal.pub
+
+Match all
+Include ~/.ssh/config
