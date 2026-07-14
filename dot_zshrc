@@ -36,3 +36,18 @@ fi
 export PATH="/Users/ticarlso/.codeium/windsurf/bin:$PATH"
 
 eval "$(~/.local/bin/mise activate zsh)"
+
+# Keep credential-aware command wrappers ahead of mise's project binaries.
+# Mise refreshes PATH after directory changes and before prompts, so register
+# this after mise's hooks and restore wrapper precedence after every refresh.
+_managed_wrapper_path_first() {
+  path=("$HOME/.local/bin" ${path:#$HOME/.local/bin})
+  export PATH
+}
+
+autoload -Uz add-zsh-hook
+add-zsh-hook -d chpwd _managed_wrapper_path_first 2>/dev/null
+add-zsh-hook -d precmd _managed_wrapper_path_first 2>/dev/null
+add-zsh-hook chpwd _managed_wrapper_path_first
+add-zsh-hook precmd _managed_wrapper_path_first
+_managed_wrapper_path_first

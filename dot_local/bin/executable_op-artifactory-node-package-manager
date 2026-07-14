@@ -2,7 +2,20 @@
 set -eu
 
 tool="$(basename "$0")"
-real_tool="$HOME/.local/share/n/bin/$tool"
+real_tool=
+
+# Prefer the executable selected by mise for the current project.  The wrapper
+# itself stays first on PATH, while `mise which` returns the underlying binary
+# without recursing through this symlink.
+if [ -x "$HOME/.local/bin/mise" ]; then
+    real_tool="$("$HOME/.local/bin/mise" which "$tool" 2>/dev/null || true)"
+fi
+
+# Not every package manager is necessarily managed by mise.  Keep the existing
+# n installation as the compatibility fallback for pnpm/Yarn/Corepack shims.
+if [ -z "$real_tool" ] || [ ! -x "$real_tool" ]; then
+    real_tool="$HOME/.local/share/n/bin/$tool"
+fi
 
 if [ ! -x "$real_tool" ]; then
     printf 'No underlying %s executable found at %s\n' "$tool" "$real_tool" >&2
@@ -15,6 +28,18 @@ case "${1:-}" in
         exec "$real_tool" "$@"
         ;;
 esac
+
+# npm lifecycle and local-inspection commands operate on the installed project
+# and do not contact a package registry themselves.  If a lifecycle script
+# launches a registry operation (for example, a nested `npm ci`), that child
+# resolves this wrapper again and obtains credentials at that point.
+if [ "$tool" = npm ]; then
+    case "${1:-}" in
+        run|run-script|test|start|stop|restart|ls|list|ll|la|explain|query|prefix|root|config)
+            exec "$real_tool" "$@"
+            ;;
+    esac
+fi
 
 # npm-family clients do not implement an external credential-helper protocol.
 # Detect the registries needed by this invocation and resolve only those JFrog
