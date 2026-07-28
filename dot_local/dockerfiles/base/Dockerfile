@@ -19,8 +19,8 @@ RUN apt-get update && \
     (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"') >> /home/${USER_NAME}/.zprofile && \
     (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv zsh)"') >> /home/${USER_NAME}/.zshrc && \
     (echo; echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv sh)"') >> /etc/profile && \
-    (echo; echo 'PATH="$PATH:/home/linuxbrew/.linuxbrew/bin"') >> /etc/profile && \ 
-    (echo; echo 'PATH="$PATH:/home/linuxbrew/.linuxbrew/bin"') >> /etc/environment && \ 
+    (echo; echo 'PATH="$PATH:/home/linuxbrew/.linuxbrew/bin"') >> /etc/profile && \
+    (echo; echo 'PATH="$PATH:/home/linuxbrew/.linuxbrew/bin"') >> /etc/environment && \
     mkdir -p /etc/homebrew && \
     echo 'HOMEBREW_NO_COLOR=1' > /etc/homebrew/brew.env && \
     echo 'HOMEBREW_DISPLAY_INSTALL_TIMES=1' >> /etc/homebrew/brew.env && \
@@ -29,15 +29,15 @@ RUN apt-get update && \
     echo 'HOMEBREW_AUTOREMOVE=1' >> /etc/homebrew/brew.env && \
     echo 'HOMEBREW_BOOTSNAP=1' >> /etc/homebrew/brew.env && \
     chmod a+r /etc/homebrew/brew.env && \
-    chown -R ${USER_NAME}: /home/${USER_NAME} 
-    
+    chown -R ${USER_NAME}: /home/${USER_NAME}
+
 FROM base AS build
 ARG USER_NAME=linuxbrew
 USER ${USER_NAME}
-COPY --chown=${USER_NAME} .local/brewfiles/base /tmp/base
+COPY --chown=${USER_NAME} .local/dockerfiles/base/Brewfile /tmp/base/Brewfile
 RUN export NONINTERACTIVE=1 && \
     eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv sh)" && \
-    brew bundle --verbose --file /tmp/base/Brewfile --cleanup 
+    brew bundle --verbose --file /tmp/base/Brewfile --cleanup
 
 FROM base AS final
 ARG USER_NAME=linuxbrew
@@ -55,4 +55,4 @@ CMD ["/home/linuxbrew/.linuxbrew/bin/zsh", "--login"]
 #     brew autoremove
 
 
-# RUN brew bundle --verbose --file /home/${USER_NAME}/.local/brewfiles/identity/Brewfile 
+# RUN brew bundle --verbose --file /home/${USER_NAME}/.local/brewfiles/identity/Brewfile

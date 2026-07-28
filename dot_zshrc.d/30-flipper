@@ -1,24 +1,29 @@
 #!/usr/bin/env zsh
 #
-# Jekyll related functions and aliases
-#
+# Flipper project helper. Installation and its Python environment belong to
+# the project, not interactive shell startup or the machine-global Brewfile.
 
 flipper-mount-install() {
     local basepath="$HOME/src/github.com/dakhnod/fzfs"
-    mkdir -p $basepath
-    git clone --recursive git@github.com:dakhnod/fzfs.git $basepath
-    pushd $basepath
-    python3 -m venv venv
+    mkdir -p "$basepath"
+    if [[ ! -d "$basepath/.git" ]]; then
+        git clone --recursive git@github.com:dakhnod/fzfs.git "$basepath" || return
+    fi
+    pushd "$basepath" >/dev/null || return
+    python3 -m venv venv || {
+        popd >/dev/null
+        return 1
+    }
     . venv/bin/activate
     pip install -r requirements.txt
-    popd
+    popd >/dev/null || return
 }
 
 flipper-mount-usb() {
     local basepath="$HOME/src/github.com/dakhnod/fzfs"
     local device="/dev/tty.usbmodemflip_Flipbb1"
     local mountpoint="$HOME/Volumes/FlipBB"
-    mkdir -p $mountpoint
-    source $basepath/venv/bin/activate
-    $basepath/venv/bin/python3 $basepath/fzfs.py -d $device -m $mountpoint
+    mkdir -p "$mountpoint"
+    source "$basepath/venv/bin/activate"
+    "$basepath/venv/bin/python3" "$basepath/fzfs.py" -d "$device" -m "$mountpoint"
 }

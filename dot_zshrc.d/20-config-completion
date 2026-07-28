@@ -2,18 +2,59 @@
 #
 # completion options
 #
+zmodload -i zsh/complist
+
+WORDCHARS=''
+
 setopt ALWAYS_TO_END        # move cursor to the end of a completed word
 setopt AUTO_LIST            # automatically list choices on ambiguous completion
 setopt AUTO_MENU            # show completion menu on a successive tab press
 setopt AUTO_PARAM_SLASH     # if completed parameter is a directory, add a trailing slash
 setopt COMPLETE_IN_WORD     # complete from both ends of a word
 unsetopt MENU_COMPLETE      # do not autoselect the first completion entry
+unsetopt FLOW_CONTROL
+
+bindkey -M menuselect '^o' accept-and-infer-next-history
+zstyle ':completion:*:*:*:*:*' menu select
+
+if [[ "$CASE_SENSITIVE" = true ]]; then
+  zstyle ':completion:*' matcher-list 'r:|=*' 'l:|=* r:|=*'
+else
+  zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}' 'r:|=*' 'l:|=* r:|=*'
+fi
+
+zstyle ':completion:*' special-dirs true
 
 # Speed up autocomplete, force prefix mapping
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
-zstyle ':completion:*' cache-path ~/.zsh/cache
+zstyle ':completion:*' cache-path "${ZSH_CACHE_DIR:-$HOME/.zsh/cache}"
+zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 zstyle -e ':completion:*:default' list-colors 'reply=("${PREFIX:+=(#bi)($PREFIX:t)*==34=34}:${(s.:.)LS_COLORS}")';
+zstyle ':completion:*:*:*:*:processes' command "ps -u $USERNAME -o pid,user,comm -w -w"
+zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-directories
+zstyle '*' single-ignored show
+
+if [[ ${COMPLETION_WAITING_DOTS:-false} != false ]]; then
+  expand-or-complete-with-dots() {
+    [[ $COMPLETION_WAITING_DOTS = true ]] && COMPLETION_WAITING_DOTS="%F{red}...%f"
+    printf '\e[?7l%s\e[?7h' "${(%)COMPLETION_WAITING_DOTS}"
+    zle expand-or-complete
+    zle redisplay
+  }
+  zle -N expand-or-complete-with-dots
+  bindkey -M emacs '^I' expand-or-complete-with-dots
+  bindkey -M viins '^I' expand-or-complete-with-dots
+  bindkey -M vicmd '^I' expand-or-complete-with-dots
+fi
+
+if command -v brew >/dev/null 2>&1; then
+  docker_prefix="$(brew --prefix docker 2>/dev/null)"
+  if [[ -d "$docker_prefix/share/zsh/site-functions" ]]; then
+    fpath=("$docker_prefix/share/zsh/site-functions" $fpath)
+  fi
+  unset docker_prefix
+fi
 
 # Load any custom zsh completions we've installed
 if [[ -d ~/.zsh-completions ]]; then

@@ -1,45 +1,62 @@
 #!/usr/bin/env zsh
-#
-# chezmoi related functions and aliases
-#
-alias cm=chezmoi
-alias cma="cm apply"                       # ChezMoi Apply
-alias cmd="cm diff"                        # ChezMoi Diff
-alias cme="cm edit"                        # ChezMoi Edit
-alias cmezrc="cm edit ~/.zshrc"            # ChezMoi Edit ZshRc
 
-# Fuzzy ChezMoi Edit
-#   description: fuzzy find a dotfile to edit, optionally specify filename hint
-#   usage: fdkre [FILE]
-function fcme() {
-    local file=$(chezmoi managed | sed 1d | fzf --no-multi -q "$1" | awk '{print $1}')
-    [ -n "$file" ] && chezmoi edit "$file"
+alias cm=chezmoi
+alias cma='chezmoi apply'
+alias cmd='chezmoi diff'
+alias cme='chezmoi edit'
+alias cmezrc='chezmoi edit ~/.zshrc'
+# Remote-to-local update. Use `cms` for the opposite direction.
+alias cmu='chezmoi update'
+# One-shot local source save: initialize, apply, stage, commit, rebase, verify,
+# and push without force. Direct `dotfiles-save` runs now require confirmation or
+# explicit `--yes`; `save-dotfiles` preserves the historical review flow.
+alias cms='dotfiles-save'
+
+fcme() {
+  local managed_file
+  managed_file="$(chezmoi managed | fzf --no-multi -q "${1:-}")" || return
+  [[ -n "$managed_file" ]] && chezmoi edit -- "$managed_file"
 }
 
-# save-dotfiles - apply and commit dotfiles
-#   usage: save-dotfiles "MESSAGE"
-function save-dotfiles { 
-    readonly local commit_message="${1:?"a commit message must be specified"}"
-    echo "\n\n"
-    lg $0 "local diff:"
-    GIT_PAGER="cat" LESS="$LESS -FRXK" chezmoi --no-pager diff || echo "no diff"
-    
-    echo "\n\n"
-    lg $0 "remote diff:"
-    GIT_PAGER="cat" LESS="$LESS -FRXK" chezmoi --no-pager git --no-pager diff || echo "no diff"
-    echo "\n\n"
- 
-    # http://zsh.sourceforge.net/Doc/Release/Shell-Builtin-Commands.html#index-read
-    if read -q "choice?continue? (Y/y): "; then
-        echo
-        lg $0 "updating dotfiles..."
-        chezmoi git add .
-        chezmoi git -- commit -m "${commit_message}"
-        chezmoi git -- push origin main
-        chezmoi apply
-        reload-zsh
+save-dotfiles() {
+  local commit_message=${1:?a commit message must be specified}
+
+  printf '\n\n'
+  lg $0 'local diff:'
+  GIT_PAGER=cat LESS="${LESS} -FRXK" chezmoi --no-pager diff || echo 'no diff'
+
+  printf '\n\n'
+  lg $0 'remote diff:'
+  GIT_PAGER=cat LESS="${LESS} -FRXK" chezmoi git --no-pager diff || echo 'no diff'
+  printf '\n\n'
+
+  if read -q "choice?continue? (Y/y): "; then
+    echo
+    dotfiles-save --yes "$commit_message" || return
+    if command -v reload-zsh >/dev/null 2>&1; then
+      reload-zsh
     else
-        echo
-        echo "'$choice' not 'Y' or 'y'. Skipping..."
+      print 'dotfiles saved. Reload the shell with `exec zsh` to pick up changes.'
     fi
+  else
+    echo
+    echo "'$choice' not 'Y' or 'y'. Skipping..."
+  fi
+}
+
+dotfiles-review() {
+  chezmoi --no-pager diff
+  chezmoi git -- status --short
+}
+
+# Commit only content the operator has already staged after review. Applying
+# and pushing are separate, explicit operations.
+dotfiles-commit() {
+  local commit_message=${1:?a commit message must be specified}
+  if chezmoi git -- diff --cached --quiet; then
+    print -u2 'No staged dotfiles changes to commit.'
+    return 1
+  fi
+  chezmoi git -- diff --cached
+  chezmoi git -- commit -m "$commit_message"
 }

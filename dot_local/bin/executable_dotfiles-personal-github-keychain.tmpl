@@ -1,0 +1,106 @@
+#!/bin/sh
+set -eu
+
+personal_account={{ .personalGitHubAccount | quote }}
+personal_email={{ .personalGitEmail | quote }}
+ssh_dir="$HOME/.ssh"
+signing_key="$ssh_dir/id_ed25519_dotfiles_github_signing"
+local_config="$HOME/.config/git/.gitconfig-personal-local"
+allowed_signers="$HOME/.config/git/allowed_signers-personal"
+
+usage() {
+    cat <<'EOF'
+Usage: dotfiles-personal-github-keychain COMMAND
+
+  prepare  Generate a passphrase-protected signing key, add its passphrase to
+           macOS Keychain, and enable local commit signing.
+  publish  Add the prepared signing public key to the personal GitHub account.
+  status   Check local prerequisites and GitHub secure credential storage.
+
+`publish` changes the GitHub account and is intentionally separate from prepare.
+The former 1Password item is not deleted automatically.
+EOF
+}
+
+require_macos() {
+    if [ "$(uname -s)" != Darwin ]; then
+        printf '%s\n' 'Personal GitHub credentials are provisioned only on macOS.' >&2
+        exit 1
+    fi
+}
+
+prepare() {
+    require_macos
+    if [ ! -t 0 ]; then
+        printf '%s\n' 'prepare requires an interactive terminal for hidden passphrase prompts.' >&2
+        exit 1
+    fi
+    mkdir -p "$ssh_dir" "$(dirname "$local_config")"
+    chmod 0700 "$ssh_dir" "$(dirname "$local_config")"
+    if [ ! -e "$signing_key" ]; then
+        ssh-keygen -t ed25519 -a 100 -C "$personal_email signing" -f "$signing_key"
+    fi
+    apple_agent=$(/bin/launchctl getenv SSH_AUTH_SOCK)
+    [ -n "$apple_agent" ] && [ -S "$apple_agent" ] || {
+        printf '%s\n' 'The macOS SSH agent is unavailable.' >&2
+        exit 1
+    }
+    SSH_AUTH_SOCK=$apple_agent /usr/bin/ssh-add --apple-use-keychain "$signing_key"
+    unset apple_agent
+
+    umask 077
+    config_tmp=$(mktemp "$(dirname "$local_config")/.gitconfig-personal-local.XXXXXX")
+    signers_tmp=$(mktemp "$(dirname "$allowed_signers")/.allowed-signers-personal.XXXXXX")
+    trap 'rm -f "$config_tmp" "$signers_tmp"' EXIT HUP INT TERM
+    {
+        printf '[user]\n'
+        printf '    signingKey = %s.pub\n' "$signing_key"
+        printf '[gpg]\n'
+        printf '    format = ssh\n'
+        printf '[gpg "ssh"]\n'
+        printf '    program = ~/.local/bin/dotfiles-ssh-sign-keychain\n'
+        printf '    allowedSignersFile = %s\n' "$allowed_signers"
+        printf '[commit]\n'
+        printf '    gpgSign = true\n'
+    } >"$config_tmp"
+    printf '%s %s\n' "$personal_email" "$(cat "$signing_key.pub")" >"$signers_tmp"
+    chmod 0600 "$config_tmp" "$signers_tmp"
+    mv -f "$config_tmp" "$local_config"
+    mv -f "$signers_tmp" "$allowed_signers"
+    trap - EXIT HUP INT TERM
+    printf '%s\n' 'Local Keychain-backed SSH commit signing is prepared.'
+    printf '%s\n' 'Run dotfiles-personal-github-keychain publish after reviewing the public key.'
+}
+
+publish() {
+    require_macos
+    [ -s "$signing_key.pub" ] || {
+        printf '%s\n' 'Run prepare first.' >&2
+        exit 1
+    }
+    gh auth status --hostname github.com
+    printf 'This will add one signing key to GitHub account %s. Continue? [y/N] ' "$personal_account" >&2
+    read -r answer
+    case "$answer" in y|Y|yes|YES) ;; *) exit 1 ;; esac
+    key_title="dotfiles $(hostname -s)"
+    gh ssh-key add "$signing_key.pub" --type signing --title "$key_title signing"
+}
+
+status() {
+    require_macos
+    gh auth status --hostname github.com
+    [ -s "$signing_key" ] && printf '%s\n' 'signing key: prepared' || printf '%s\n' 'signing key: missing'
+    if git config --file "$local_config" --bool --get commit.gpgSign 2>/dev/null | grep -qx true; then
+        printf '%s\n' 'personal signing config: enabled'
+    else
+        printf '%s\n' 'personal signing config: disabled'
+    fi
+}
+
+case ${1:-} in
+    prepare) prepare ;;
+    publish) publish ;;
+    status) status ;;
+    -h|--help|help) usage ;;
+    *) usage >&2; exit 64 ;;
+esac

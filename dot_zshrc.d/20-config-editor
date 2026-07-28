@@ -1,6 +1,8 @@
 #!/usr/bin/env zsh
-#
-# editor options
-#
-export VISUAL="code --wait --new-window"
+
+if command -v code >/dev/null 2>&1; then
+  export VISUAL="code --wait --new-window"
+else
+  export VISUAL="vim"
+fi
 export EDITOR="vim"

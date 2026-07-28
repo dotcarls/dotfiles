@@ -1,0 +1,16 @@
+# Security guardrails for direnv 2.37.x. These are convenience checks, not a
+# sandbox: an approved .envrc is still arbitrary shell code.
+dotenv() {
+  log_error 'dotenv is disabled; keep secrets and implicit .env loading out of .envrc'
+  return 1
+}
+
+source_env() {
+  log_error 'source_env is disabled because transitive files are not independently authorized'
+  return 1
+}
+
+source_up() {
+  log_error 'source_up is disabled because transitive files are not independently authorized'
+  return 1
+}

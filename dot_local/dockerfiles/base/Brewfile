@@ -1,0 +1,4 @@
+# Docker base image compatibility bundle.
+# Keeps the historical base-shell formula set local to this image build.
+brew "zsh"
+brew "bash"

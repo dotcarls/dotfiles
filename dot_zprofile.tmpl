@@ -1,0 +1,8 @@
+#!/usr/bin/env zsh
+# Homebrew owns the portable dependency prefix. Only documented default
+# prefixes are supported; arbitrary per-user macOS prefixes lose bottle support.
+brew_bin={{ joinPath .homebrewPrefix "bin/brew" | quote }}
+if [[ -x "$brew_bin" ]]; then
+    eval "$("$brew_bin" shellenv)"
+fi
+unset brew_bin

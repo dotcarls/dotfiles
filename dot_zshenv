@@ -1,0 +1,5 @@
+#!/usr/bin/env zsh
+# Keep non-interactive zsh startup free of prompts, secret-manager reads, and
+# project-specific credentials. Interactive integrations belong in ~/.zshrc.
+typeset -U path PATH
+path=("$HOME/.local/bin" $path)

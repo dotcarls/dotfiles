@@ -1,0 +1,42 @@
+README.md
+docs/**
+bootstrap-homebrew.sh
+scripts/**
+
+{{- if or (ne .chezmoi.os "darwin") (eq .personalGitHubAccount "") }}
+.config/git/.gitconfig-personal-local
+.config/git/allowed_signers-personal
+.local/bin/dotfiles-personal-github-keychain
+.local/bin/dotfiles-ssh-sign-keychain
+{{- end }}
+
+{{- if not .workConfig }}
+.config/homebrew/Brewfile.work
+.config/duo-sso/**
+.config/git/.gitconfig-work
+.config/git/.gitconfig-work-emu
+.config/git/.gitconfig-work-routing
+.config/git/allowed_signers-work
+.local/bin/dotfiles-work-rage
+{{- end }}
+
+{{- if not .secretAccess }}
+.config/1Password/**
+.config/containers/auth.json
+.config/git/ssh_config-work
+.config/git/keys/github-work.pub
+.config/git/keys/github-work-emu.pub
+.docker/config.json
+.npmrc
+.local/bin/git-credential-op-github
+.local/bin/gh-work
+.local/bin/op-artifactory-node-package-manager
+.local/bin/npm
+.local/bin/npx
+.local/bin/pnpm
+.local/bin/yarn
+.local/bin/yarnpkg
+.local/share/op-artifactory-credential/**
+.zshrc.d/40-work
+Library/Preferences/helm/registry/config.json
+{{- end }}

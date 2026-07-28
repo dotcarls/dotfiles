@@ -1,3 +1,119 @@
-encryption = "gpg"
-[gpg]
-    symmetric = true
+{{- $trustDomains := list "personal" "work" "none" -}}
+{{- $defaultTrustDomain := "personal" -}}
+{{- $trustDomain := promptChoiceOnce . "trustDomain" "Trust domain" $trustDomains $defaultTrustDomain -}}
+{{- $machineRoles := list "laptop" "desktop" "remote" "container" -}}
+{{- $defaultMachineRole := "remote" -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   $defaultMachineRole = "laptop" -}}
+{{- end -}}
+{{- $machineRole := promptChoiceOnce . "machineRole" "Machine role" $machineRoles $defaultMachineRole -}}
+{{- $interactiveDefault := ne $machineRole "container" -}}
+{{- $interactive := promptBoolOnce . "interactive" "Interactive shell machine" $interactiveDefault -}}
+{{- $guiDefault := and (eq .chezmoi.os "darwin") (or (eq $machineRole "laptop") (eq $machineRole "desktop")) -}}
+{{- $gui := promptBoolOnce . "gui" "Manage graphical applications" $guiDefault -}}
+{{- $developmentDefault := and $interactive (ne $machineRole "container") -}}
+{{- $development := promptBoolOnce . "development" "Install development dependencies" $developmentDefault -}}
+{{- $managedDefault := eq $trustDomain "work" -}}
+{{- $managed := promptBoolOnce . "managed" "Externally managed or MDM-controlled machine" $managedDefault -}}
+{{- $manageGuiApps := false -}}
+{{- if $gui -}}
+{{-   $manageGuiApps = promptBoolOnce . "manageGuiApps" "Manage GUI applications with Homebrew" (not $managed) -}}
+{{- end -}}
+{{- $masDefault := and $gui $manageGuiApps (eq .chezmoi.os "darwin") -}}
+{{- $mas := promptBoolOnce . "mas" "Manage Mac App Store applications" $masDefault -}}
+{{- $brewDefault := ne $machineRole "container" -}}
+{{- $brewEnabled := promptBoolOnce . "brewEnabled" "Manage machine dependencies with Homebrew" $brewDefault -}}
+{{- $workConfigDefault := and (eq $trustDomain "work") (or (eq $machineRole "laptop") (eq $machineRole "desktop")) -}}
+{{- $workConfig := false -}}
+{{- if eq $trustDomain "work" -}}
+{{-   $workConfig = promptBoolOnce . "workConfig" "Enable encrypted work configuration on this machine" $workConfigDefault -}}
+{{- end -}}
+{{- $secretAccessDefault := and $workConfig (eq .chezmoi.os "darwin") (or (eq $machineRole "laptop") (eq $machineRole "desktop")) -}}
+{{- $secretAccess := false -}}
+{{- if $workConfig -}}
+{{-   $secretAccess = promptBoolOnce . "secretAccess" "Allow runtime access to work secrets through 1Password" $secretAccessDefault -}}
+{{- end -}}
+{{- $defaultBrewPrefix := "/home/linuxbrew/.linuxbrew" -}}
+{{- if eq .chezmoi.os "darwin" -}}
+{{-   if eq .chezmoi.arch "arm64" -}}
+{{-     $defaultBrewPrefix = "/opt/homebrew" -}}
+{{-   else -}}
+{{-     $defaultBrewPrefix = "/usr/local" -}}
+{{-   end -}}
+{{- end -}}
+{{- $homebrewPrefix := promptStringOnce . "homebrewPrefix" "Homebrew prefix" $defaultBrewPrefix -}}
+{{- $personalGitName := "" -}}
+{{- $personalGitEmail := "" -}}
+{{- $personalGitHubAccount := "" -}}
+{{- if ne $trustDomain "none" -}}
+{{-   $personalGitName = promptStringOnce . "personalGitName" "Personal Git name" -}}
+{{-   $personalGitEmail = promptStringOnce . "personalGitEmail" "Personal Git email" -}}
+{{-   $personalGitHubAccount = promptStringOnce . "personalGitHubAccount" "Personal GitHub account" -}}
+{{- end -}}
+{{- $workGitName := "" -}}
+{{- $workGitEmail := "" -}}
+{{- $workEmuGitEmail := "" -}}
+{{- $workSigningKey := "" -}}
+{{- $workEmuSigningKey := "" -}}
+{{- $workRageIdentityRef := "" -}}
+{{- $workTcSource := "" -}}
+{{- $workClaudegateSource := "" -}}
+{{- if $workConfig -}}
+{{-   $workGitName = promptStringOnce . "workGitName" "Work Git name" -}}
+{{-   $workGitEmail = promptStringOnce . "workGitEmail" "Work Git email" -}}
+{{-   $workEmuGitEmail = promptStringOnce . "workEmuGitEmail" "Work EMU Git email" $workGitEmail -}}
+{{-   $workSigningKey = promptStringOnce . "workSigningKey" "Work SSH signing public key" -}}
+{{-   $workEmuSigningKey = promptStringOnce . "workEmuSigningKey" "Work EMU SSH signing public key" -}}
+{{-   $workRageIdentityRef = promptStringOnce . "workRageIdentityRef" "1Password reference for the work rage identity" -}}
+{{-   $workTcSource = promptStringOnce . "workTcSource" "Optional local source URI for the tc uv tool" "" -}}
+{{-   $workClaudegateSource = promptStringOnce . "workClaudegateSource" "Optional source URI for the claudegate uv tool" "" -}}
+{{- end -}}
+
+encryption = "age"
+
+[age]
+    command = "rage"
+{{- if $workConfig }}
+    # Public X25519 recipient; the corresponding identity is stored only in 1Password.
+    recipient = "age1x74e4jpl9q4v67j6du0lhrmq79yhgsp9n3yx3tse6m7k3zkx4apqe4d9e2"
+    identity = {{ joinPath .chezmoi.homeDir ".config/chezmoi/work-rage-identity.txt" | quote }}
+{{- end }}
+
+[git]
+    autoCommit = false
+    autoPush = false
+
+[data]
+    trustDomain = {{ $trustDomain | quote }}
+    machineRole = {{ $machineRole | quote }}
+    interactive = {{ $interactive }}
+    gui = {{ $gui }}
+    development = {{ $development }}
+    managed = {{ $managed }}
+    manageGuiApps = {{ $manageGuiApps }}
+    mas = {{ $mas }}
+    brewEnabled = {{ $brewEnabled }}
+    workConfig = {{ $workConfig }}
+    secretAccess = {{ $secretAccess }}
+    homebrewPrefix = {{ $homebrewPrefix | quote }}
+    personalGitName = {{ $personalGitName | quote }}
+    personalGitEmail = {{ $personalGitEmail | quote }}
+    personalGitHubAccount = {{ $personalGitHubAccount | quote }}
+    workGitName = {{ $workGitName | quote }}
+    workGitEmail = {{ $workGitEmail | quote }}
+    workEmuGitEmail = {{ $workEmuGitEmail | quote }}
+    workSigningKey = {{ $workSigningKey | quote }}
+    workEmuSigningKey = {{ $workEmuSigningKey | quote }}
+    workRageIdentityRef = {{ $workRageIdentityRef | quote }}
+    workTcSource = {{ $workTcSource | quote }}
+    workClaudegateSource = {{ $workClaudegateSource | quote }}
+
+{{- if $workConfig }}
+[hooks.read-source-state.pre]
+    command = "sh"
+    args = [{{ joinPath .chezmoi.sourceDir "scripts/materialize-work-rage-identity.sh" | quote }}]
+
+[scriptEnv]
+    DOTFILES_WORK_RAGE_IDENTITY = {{ joinPath .chezmoi.homeDir ".config/chezmoi/work-rage-identity.txt" | quote }}
+    DOTFILES_WORK_RAGE_REFERENCE = {{ $workRageIdentityRef | quote }}
+{{- end }}

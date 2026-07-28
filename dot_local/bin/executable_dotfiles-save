@@ -1,0 +1,127 @@
+#!/bin/sh
+set -eu
+
+usage() {
+    cat <<'EOF'
+Usage:
+  dotfiles-save [COMMIT MESSAGE...]
+  dotfiles-save --yes [COMMIT MESSAGE...]
+  dotfiles-save --dry-run
+
+Initialize and apply the current chezmoi source state, stage every source
+change, create one commit, rebase it onto the configured upstream, verify the
+post-rebase state, and push without force.
+
+Direct mutating runs require confirmation unless --yes or DOTFILES_SAVE_YES=1
+is supplied. When no message is supplied, a timestamped dotfiles message is
+generated.
+EOF
+}
+
+die() {
+    printf 'dotfiles-save: %s\n' "$*" >&2
+    exit 1
+}
+
+chezmoi_bin=$(command -v chezmoi) || die 'chezmoi is not available'
+git_bin=$(command -v git) || die 'git is not available'
+source_dir=$("$chezmoi_bin" source-path)
+"$git_bin" -C "$source_dir" rev-parse --is-inside-work-tree >/dev/null 2>&1 ||
+    die "chezmoi source is not a Git working tree: $source_dir"
+
+branch=$("$git_bin" -C "$source_dir" symbolic-ref --quiet --short HEAD) ||
+    die 'the chezmoi source is in detached HEAD state'
+upstream=$("$git_bin" -C "$source_dir" rev-parse \
+    --abbrev-ref --symbolic-full-name '@{upstream}' 2>/dev/null) ||
+    die "branch $branch has no configured upstream"
+
+for marker in MERGE_HEAD CHERRY_PICK_HEAD REVERT_HEAD; do
+    if "$git_bin" -C "$source_dir" rev-parse --quiet --verify "$marker" >/dev/null; then
+        die "an unfinished Git operation exists: $marker"
+    fi
+done
+git_dir=$("$git_bin" -C "$source_dir" rev-parse --absolute-git-dir)
+for operation_dir in rebase-merge rebase-apply; do
+    operation_path="$git_dir/$operation_dir"
+    [ ! -d "$operation_path" ] || die "an unfinished Git operation exists: $operation_dir"
+done
+unset marker git_dir operation_dir operation_path
+
+if [ "${1:-}" = --help ] || [ "${1:-}" = -h ]; then
+    usage
+    exit 0
+fi
+
+require_confirmation=1
+if [ "${DOTFILES_SAVE_YES:-}" = 1 ]; then
+    require_confirmation=0
+fi
+
+if [ "${1:-}" = --yes ]; then
+    require_confirmation=0
+    shift
+fi
+
+printf 'Source: %s\nBranch: %s -> %s\n' "$source_dir" "$branch" "$upstream"
+"$git_bin" -C "$source_dir" status --short --branch
+
+if [ "${1:-}" = --dry-run ]; then
+    [ "$#" -eq 1 ] || die '--dry-run does not accept a commit message'
+    "$git_bin" -C "$source_dir" diff --check
+    "$chezmoi_bin" --dry-run --no-tty init
+    "$chezmoi_bin" --dry-run --no-tty apply
+    printf '%s\n' 'Dry run complete; no files were staged, committed, or pushed.'
+    exit 0
+fi
+
+if [ "$#" -gt 0 ]; then
+    commit_message=$*
+else
+    commit_message="chore(dotfiles): save $(date -u '+%Y-%m-%dT%H:%M:%SZ')"
+fi
+
+if [ "$require_confirmation" -ne 0 ]; then
+    printf '%s' 'Continue with apply, commit, rebase, verify, and push? [y/N] '
+    read -r choice
+    case "$choice" in
+        y|Y) ;;
+        *)
+            printf '%s\n' 'Aborted; rerun with --yes for a noninteractive opt-in.'
+            exit 0
+            ;;
+    esac
+fi
+
+# Regenerate local configuration when .chezmoi.toml.tmpl changed, then make the
+# target state match the exact source state before creating a commit.
+"$chezmoi_bin" --no-tty init
+"$chezmoi_bin" --no-tty apply
+"$git_bin" -C "$source_dir" diff --check
+"$git_bin" -C "$source_dir" add --all
+"$git_bin" -C "$source_dir" diff --cached --check
+
+if "$git_bin" -C "$source_dir" diff --cached --quiet; then
+    printf '%s\n' 'No new source changes to commit; continuing with synchronization.'
+else
+    "$git_bin" -C "$source_dir" status --short
+    "$git_bin" -C "$source_dir" commit -m "$commit_message"
+fi
+
+if [ -n "$("$git_bin" -C "$source_dir" status --porcelain)" ]; then
+    die 'the source changed during commit hooks; review it and run cms again'
+fi
+
+# Incorporate concurrent upstream changes without rewriting remote history.
+"$git_bin" -C "$source_dir" pull --rebase
+
+# Validate and apply the exact post-rebase commit before it is published.
+"$chezmoi_bin" --no-tty init
+"$chezmoi_bin" --no-tty apply
+"$chezmoi_bin" verify
+"$git_bin" -C "$source_dir" diff --check
+if [ -n "$("$git_bin" -C "$source_dir" status --porcelain)" ]; then
+    die 'the source changed during post-rebase verification; nothing was pushed'
+fi
+
+"$git_bin" -C "$source_dir" push
+"$git_bin" -C "$source_dir" status --short --branch

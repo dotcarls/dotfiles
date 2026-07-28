@@ -1,0 +1,103 @@
+#!/bin/sh
+set -eu
+
+identity_path={{ joinPath .chezmoi.homeDir ".config/chezmoi/work-rage-identity.txt" | quote }}
+identity_reference={{ .workRageIdentityRef | quote }}
+expected_recipient={{ .dotfiles.workRageRecipient | quote }}
+
+usage() {
+    cat <<'EOF'
+Usage: dotfiles-work-rage COMMAND
+
+  status       Verify the local identity and, when signed in, the 1Password copy.
+  materialize  Retrieve and validate the identity from 1Password atomically.
+  store        Replace the referenced Secure Note with the validated local identity.
+
+`store` changes 1Password and always requires an interactive confirmation.
+EOF
+}
+
+validate_identity() {
+    candidate=$1
+    actual=$(rage-keygen -y "$candidate")
+    if [ "$actual" != "$expected_recipient" ]; then
+        printf '%s\n' 'The identity does not match the repository work recipient.' >&2
+        exit 1
+    fi
+}
+
+require_op_session() {
+    if ! op whoami >/dev/null 2>&1; then
+        printf '%s\n' '1Password CLI is not signed in; unlock 1Password and run op signin.' >&2
+        exit 1
+    fi
+}
+
+parse_reference() {
+    reference_path=${identity_reference#*://}
+    vault_id=${reference_path%%/*}
+    reference_path=${reference_path#*/}
+    item_id=${reference_path%%/*}
+    if [ -z "$vault_id" ] || [ -z "$item_id" ] || [ "$reference_path" = "$identity_reference" ]; then
+        printf '%s\n' 'The configured 1Password reference is invalid.' >&2
+        exit 1
+    fi
+}
+
+status() {
+    [ -s "$identity_path" ] || {
+        printf '%s\n' 'local identity: missing'
+        exit 1
+    }
+    validate_identity "$identity_path"
+    printf 'local identity: valid (%s)\n' "$expected_recipient"
+    require_op_session
+    remote_recipient=$(op read "$identity_reference" | rage-keygen -y - 2>/dev/null || true)
+    if [ "$remote_recipient" = "$expected_recipient" ]; then
+        printf '%s\n' '1Password identity: valid and matching'
+    else
+        printf '%s\n' '1Password identity: unavailable, empty, or mismatched'
+        exit 1
+    fi
+}
+
+materialize() {
+    require_op_session
+    identity_dir=$(dirname "$identity_path")
+    mkdir -p "$identity_dir"
+    chmod 0700 "$identity_dir"
+    umask 077
+    identity_tmp=$(mktemp "$identity_dir/.work-rage-identity.XXXXXX")
+    trap 'rm -f "$identity_tmp"' EXIT HUP INT TERM
+    op read "$identity_reference" >"$identity_tmp"
+    validate_identity "$identity_tmp"
+    chmod 0600 "$identity_tmp"
+    mv -f "$identity_tmp" "$identity_path"
+    trap - EXIT HUP INT TERM
+}
+
+store() {
+    [ -t 0 ] || {
+        printf '%s\n' 'store requires an interactive terminal.' >&2
+        exit 1
+    }
+    validate_identity "$identity_path"
+    require_op_session
+    parse_reference
+    printf '%s' 'Replace the referenced 1Password Secure Note with the local work identity? [y/N] ' >&2
+    read -r answer
+    case "$answer" in y|Y|yes|YES) ;; *) exit 1 ;; esac
+    op item get "$item_id" --vault "$vault_id" --format json \
+      | jq --rawfile identity "$identity_path" \
+          '(.fields[] | select(.id == "notesPlain").value) = $identity' \
+      | op item edit "$item_id" --vault "$vault_id" >/dev/null
+    status
+}
+
+case ${1:-} in
+    status) status ;;
+    materialize) materialize ;;
+    store) store ;;
+    -h|--help|help) usage ;;
+    *) usage >&2; exit 64 ;;
+esac

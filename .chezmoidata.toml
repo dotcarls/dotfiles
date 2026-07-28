@@ -1,0 +1,293 @@
+[dotfiles]
+schemaVersion = 1
+workRageRecipient = "age1x74e4jpl9q4v67j6du0lhrmq79yhgsp9n3yx3tse6m7k3zkx4apqe4d9e2"
+
+[packages]
+baseFormulae = [
+  "bash",
+  "chezmoi",
+  "coreutils",
+  "curl",
+  "direnv",
+  "fzf",
+  "gh",
+  "git",
+  "git-lfs",
+  "gnu-sed",
+  "gnu-tar",
+  "gzip",
+  "jq",
+  "mise",
+  "powerlevel10k",
+  "rage",
+  "ripgrep",
+  "shfmt",
+  "tealdeer",
+  "uv",
+  "vim",
+  "yq",
+  "zsh",
+  "zsh-autosuggestions",
+  "zsh-completions",
+  "zsh-history-substring-search",
+  "zsh-syntax-highlighting",
+]
+
+developmentFormulae = [
+  "act",
+  "ansible",
+  "argocd",
+  "awscli",
+  "azure-cli",
+  "buf",
+  "cookiecutter",
+  "deno",
+  "diff-so-fancy",
+  "dive",
+  "docker",
+  "dust",
+  "gcc",
+  "ghidra",
+  "glances",
+  "gnupg",
+  "go",
+  "go-task",
+  "grpcurl",
+  "gum",
+  "helm",
+  "htmlq",
+  "jpeg",
+  "kind",
+  "kubernetes-cli",
+  "libpq",
+  "librsvg",
+  "mkdocs",
+  "n",
+  "openjdk",
+  "openjdk@21",
+  "oras",
+  "pandoc",
+  "pango",
+  "parallel",
+  "pipx",
+  "pkgconf",
+  "podman",
+  "podman-compose",
+  "protobuf",
+  "pyenv",
+  "qemu",
+  "rust",
+  "selenium-server",
+  "sops",
+  "sshuttle",
+  "step",
+  "terraform-docs",
+  "terragrunt",
+  "tfenv",
+  "tflint",
+]
+
+darwinFormulae = [
+  "mas",
+  "pinentry-mac",
+  "serialosc",
+]
+
+darwinCasks = [
+  "arduino-ide",
+  "bot-framework-emulator",
+  "chatgpt",
+  "chromedriver",
+  "claude",
+  "claude-code",
+  "codex",
+  "discord",
+  "docker-desktop",
+  "firefox",
+  "font-hack-nerd-font",
+  "font-mononoki",
+  "font-mononoki-nerd-font",
+  "gb-studio",
+  "google-chrome",
+  "ik-product-manager",
+  "istat-menus",
+  "iterm2",
+  "keymapp",
+  "macfuse",
+  "notion",
+  "ollama-app",
+  "pixelorama",
+  "plexamp",
+  "processing",
+  "qflipper",
+  "rar",
+  "raspberry-pi-imager",
+  "rectangle",
+  "silicon-labs-vcp-driver",
+  "spotify",
+  "utm",
+  "vagrant",
+  "vcv-rack",
+  "visual-studio-code",
+  "vlc",
+  "vnc-viewer",
+  "warp",
+  "devin-desktop",
+  "whatsapp",
+  "zoom",
+]
+
+# These installed applications cannot currently be represented as an active
+# Homebrew cask or MAS entry. They remain visible in the rendered Brewfile so
+# that the exception boundary is explicit and reviewable.
+darwinExternalApps = [
+  { name = "iStat Menus 6", owner = "legacy", reason = "Superseded binary retained pending reviewed removal; the current release is declared as the istat-menus cask." },
+  { name = "LeapFrog Connect", owner = "vendor", reason = "Hardware support application with no current Homebrew cask." },
+  { name = "LeapFrog Connect 2", owner = "vendor", reason = "Hardware support application with no current Homebrew cask." },
+  { name = "Messenger", owner = "legacy-mas", reason = "Installed App Store build is no longer resolvable by its historical store identifier." },
+  { name = "Terraforming Mars", owner = "vendor", reason = "Installed game has no current Homebrew cask or App Store receipt." },
+  { name = "TurboTax 2022", owner = "archive", reason = "Versioned tax archive is intentionally retained outside rolling package management." },
+]
+
+vscodeExtensions = [
+  "amiralizadeh9480.cpp-helper",
+  "augustocdias.tasks-shell-input",
+  "ban.spellright",
+  "bpruitt-goddard.mermaid-markdown-syntax-highlighting",
+  "christian-kohler.path-intellisense",
+  "crystal-spider.jsdoc-generator",
+  "davidanson.vscode-markdownlint",
+  "dbaeumer.vscode-eslint",
+  "denoland.vscode-deno",
+  "docker.docker",
+  "drblury.protobuf-vsc",
+  "eamodio.gitlens",
+  "esbenp.prettier-vscode",
+  "file-icons.file-icons",
+  "fredwangwang.vscode-hcl-format",
+  "github.vscode-github-actions",
+  "golang.go",
+  "hashicorp.hcl",
+  "hashicorp.terraform",
+  "kamikillerto.vscode-colorize",
+  "kennylong.kubernetes-yaml-formatter",
+  "kingwl.vscode-vitest-runner",
+  "langium.langium-vscode",
+  "lllllllqw.jsdoc",
+  "marus25.cortex-debug",
+  "mcu-debug.debug-tracker-vscode",
+  "mcu-debug.memory-view",
+  "mcu-debug.peripheral-viewer",
+  "mcu-debug.rtos-views",
+  "mindaro-dev.file-downloader",
+  "ms-azuretools.vscode-containers",
+  "ms-azuretools.vscode-docker",
+  "ms-playwright.playwright",
+  "ms-python.black-formatter",
+  "ms-python.debugpy",
+  "ms-python.python",
+  "ms-python.vscode-pylance",
+  "ms-python.vscode-python-envs",
+  "ms-vscode-remote.remote-containers",
+  "ms-vscode-remote.remote-ssh",
+  "ms-vscode-remote.remote-ssh-edit",
+  "ms-vscode.cmake-tools",
+  "ms-vscode.cpp-devtools",
+  "ms-vscode.cpptools",
+  "ms-vscode.cpptools-extension-pack",
+  "ms-vscode.cpptools-themes",
+  "ms-vscode.makefile-tools",
+  "ms-vscode.remote-explorer",
+  "openai.chatgpt",
+  "pascalreitermann93.vscode-yaml-sort",
+  "redhat.vscode-xml",
+  "redhat.vscode-yaml",
+  "rioj7.command-variable",
+  "samuelcolvin.jinjahtml",
+  "secanis.jenkinsfile-support",
+  "sharat.vscode-brewfile",
+  "shd101wyy.markdown-preview-enhanced",
+  "tamasfe.even-better-toml",
+  "task.vscode-task",
+  "twxs.cmake",
+  "vitest.explorer",
+  "vscode-icons-team.vscode-icons",
+  "wholroyd.jinja",
+  "zhuangtongfa.material-theme",
+  "zhuangtongfa.one-dark-pro",
+]
+
+goTools = [
+  "github.com/arkadiyt/protodump/cmd/protodump",
+  "github.com/cweill/gotests/gotests",
+  "github.com/fatih/gomodifytags",
+  "github.com/go-delve/delve/cmd/dlv",
+  "github.com/grpc-ecosystem/grpcdebug",
+  "github.com/haya14busa/goplay/cmd/goplay",
+  "github.com/josharian/impl",
+  "github.com/liderman/leveldb-cli",
+  "github.com/pcasteran/terraform-graph-beautifier",
+  "golang.org/x/perf/cmd/benchstat",
+  "golang.org/x/tools/cmd/goimports",
+  "golang.org/x/tools/gopls",
+  "honnef.co/go/tools/cmd/staticcheck",
+]
+
+npmTools = [
+  "corepack",
+  "fern-api",
+  "generator-langium",
+  "yo",
+]
+
+[[packages.masApps]]
+name = "Aiko"
+id = 1672085276
+
+[[packages.masApps]]
+name = "Actions"
+id = 1586435171
+
+[[packages.masApps]]
+name = "Hyperduck"
+id = 6444667067
+
+[[packages.masApps]]
+name = "Microsoft Outlook"
+id = 985367838
+
+[[packages.masApps]]
+name = "Koala Sampler"
+id = 1479881366
+
+[[packages.masApps]]
+name = "Copilot: Track & Budget Money"
+id = 1447330651
+
+[[packages.masApps]]
+name = "Slack for Desktop"
+id = 803453959
+
+[[packages.masApps]]
+name = "Radarscope"
+id = 288419283
+
+[[packages.masApps]]
+name = "GarageBand"
+id = 682658836
+
+[[packages.masApps]]
+name = "iMovie"
+id = 408981434
+
+[[packages.masApps]]
+name = "Keynote: Design Presentations"
+id = 361285480
+
+[[packages.masApps]]
+name = "Numbers: Make Spreadsheets"
+id = 361304891
+
+[[packages.masApps]]
+name = "Pages: Create Documents"
+id = 361309726

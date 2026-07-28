@@ -1,0 +1,6 @@
+{{- if and .workConfig (ne .workSigningKey "") }}
+{{ .workGitEmail }} {{ .workSigningKey }}
+{{- end }}
+{{- if and .workConfig (ne .workEmuSigningKey "") }}
+{{ .workEmuGitEmail }} {{ .workEmuSigningKey }}
+{{- end }}

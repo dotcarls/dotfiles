@@ -13,7 +13,53 @@ globalias() {
 }
 
 zle -N globalias
+autoload -U edit-command-line
+zle -N edit-command-line
+
+if (( ${+terminfo[smkx]} && ${+terminfo[rmkx]} )); then
+  zle-line-init() { echoti smkx }
+  zle-line-finish() { echoti rmkx }
+  zle -N zle-line-init
+  zle -N zle-line-finish
+fi
+
+bindkey -e
 
 bindkey " " globalias
 bindkey "^ " magic-space           # control-space to bypass completion
 bindkey -M isearch " " magic-space # normal space during searches
+
+if (( ${+functions[history-substring-search-up]} && ${+functions[history-substring-search-down]} )); then
+  for keymap in emacs viins vicmd; do
+    bindkey -M "$keymap" '^[[A' history-substring-search-up
+    bindkey -M "$keymap" '^[[B' history-substring-search-down
+    bindkey -M "$keymap" '^[OA' history-substring-search-up
+    bindkey -M "$keymap" '^[OB' history-substring-search-down
+    [[ -n "${terminfo[kcuu1]-}" ]] && bindkey -M "$keymap" "${terminfo[kcuu1]}" history-substring-search-up
+    [[ -n "${terminfo[kcud1]-}" ]] && bindkey -M "$keymap" "${terminfo[kcud1]}" history-substring-search-down
+  done
+fi
+
+for keymap in emacs viins vicmd; do
+  [[ -n "${terminfo[kpp]-}" ]] && bindkey -M "$keymap" "${terminfo[kpp]}" up-line-or-history
+  [[ -n "${terminfo[knp]-}" ]] && bindkey -M "$keymap" "${terminfo[knp]}" down-line-or-history
+  [[ -n "${terminfo[khome]-}" ]] && bindkey -M "$keymap" "${terminfo[khome]}" beginning-of-line
+  [[ -n "${terminfo[kend]-}" ]] && bindkey -M "$keymap" "${terminfo[kend]}" end-of-line
+  bindkey -M "$keymap" $'\e[H' beginning-of-line
+  bindkey -M "$keymap" $'\e[F' end-of-line
+  bindkey -M "$keymap" $'\eOH' beginning-of-line
+  bindkey -M "$keymap" $'\eOF' end-of-line
+  [[ -n "${terminfo[kcbt]-}" ]] && bindkey -M "$keymap" "${terminfo[kcbt]}" reverse-menu-complete
+  bindkey -M "$keymap" $'\e[Z' reverse-menu-complete
+  bindkey -M "$keymap" '^?' backward-delete-char
+  if [[ -n "${terminfo[kdch1]-}" ]]; then
+    bindkey -M "$keymap" "${terminfo[kdch1]}" delete-char
+  else
+    bindkey -M "$keymap" $'\e[3~' delete-char
+  fi
+  bindkey -M "$keymap" $'\e[3;5~' kill-word
+  bindkey -M "$keymap" $'\e[1;5C' forward-word
+  bindkey -M "$keymap" $'\e[1;5D' backward-word
+done
+
+bindkey '^X^E' edit-command-line

@@ -1,0 +1,37 @@
+#!/bin/sh
+set -eu
+
+signing_key="$HOME/.ssh/id_ed25519_dotfiles_github_signing"
+load_key=false
+previous=
+for argument in "$@"; do
+    if [ "$previous" = -Y ] && [ "$argument" = sign ]; then
+        load_key=true
+        break
+    fi
+    previous=$argument
+done
+
+if [ "$load_key" = true ]; then
+    [ "$(uname -s)" = Darwin ] || {
+        printf '%s\n' 'Personal Keychain signing is available only on macOS.' >&2
+        exit 1
+    }
+    [ -s "$signing_key" ] || {
+        printf '%s\n' 'Personal signing key is missing; run dotfiles-personal-github-keychain prepare.' >&2
+        exit 1
+    }
+    apple_agent=$(/bin/launchctl getenv SSH_AUTH_SOCK)
+    [ -n "$apple_agent" ] && [ -S "$apple_agent" ] || {
+        printf '%s\n' 'The macOS SSH agent is unavailable.' >&2
+        exit 1
+    }
+    export SSH_AUTH_SOCK="$apple_agent"
+    unset apple_agent
+    if ! /usr/bin/ssh-add --apple-use-keychain "$signing_key" </dev/null >/dev/null 2>&1; then
+        printf '%s\n' 'Unable to load the personal signing key from macOS Keychain.' >&2
+        exit 1
+    fi
+fi
+
+exec /usr/bin/ssh-keygen "$@"

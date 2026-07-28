@@ -1,53 +1,85 @@
 #!/usr/bin/env zsh
 
-# setup powerlevel10k prompt
+# Powerlevel10k may render before the rest of the interactive configuration.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
-# Valid font modes:
-#   flat, awesome-patched, awesome-fontconfig, nerdfont-complete, nerdfont-fontconfig
 export POWERLEVEL9K_MODE="nerdfont-fontconfig"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
 export COMPLETION_WAITING_DOTS="true"
-
-# Global ZSH settings
 CASE_SENSITIVE="true"
 
-# Create and load from the ~/.zshrc.d directory
-mkdir -p ~/.zshrc.d
-for file in ~/.zshrc.d/*; do
-  source $file
-done
-
-# Load iTerm shell integrations if found.
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
-
-# To customize your prompt, run `p10k configure` or edit ~/.p10k.zsh.
-if [[ ! -f ~/.p10k.zsh ]]; then
-  echo "Run p10k configure or edit ~/.p10k.zsh to configure your prompt"
-else
-  source ~/.p10k.zsh
+# Nested/non-login shells may not have read ~/.zprofile. Discover only the
+# documented Homebrew prefixes and let brew generate all path variables.
+if ! command -v brew >/dev/null 2>&1; then
+  for brew_bin in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+    if [[ -x "$brew_bin" ]]; then
+      eval "$("$brew_bin" shellenv)"
+      break
+    fi
+  done
+  unset brew_bin
 fi
 
+brew_prefix=""
+if command -v brew >/dev/null 2>&1; then
+  brew_prefix="$(brew --prefix)"
+  [[ -d "$brew_prefix/share/zsh-completions" ]] && fpath=("$brew_prefix/share/zsh-completions" $fpath)
+  [[ -r "$brew_prefix/share/zsh-history-substring-search/zsh-history-substring-search.zsh" ]] && \
+    source "$brew_prefix/share/zsh-history-substring-search/zsh-history-substring-search.zsh"
+  [[ -r "$brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh" ]] && \
+    source "$brew_prefix/share/zsh-autosuggestions/zsh-autosuggestions.zsh"
+fi
 
-# Added by Windsurf
-export PATH="/Users/ticarlso/.codeium/windsurf/bin:$PATH"
+for file in "$HOME"/.zshrc.d/*(N-.); do
+  [[ -r "$file" ]] && source "$file"
+done
+unset file
 
-eval "$(~/.local/bin/mise activate zsh)"
+autoload -Uz compinit
+mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/zsh"
+compinit -d "${XDG_CACHE_HOME:-$HOME/.cache}/zsh/zcompdump-${ZSH_VERSION}"
+autoload -U +X bashcompinit && bashcompinit
 
-# Keep credential-aware command wrappers ahead of mise's project binaries.
-# Mise refreshes PATH after directory changes and before prompts, so register
-# this after mise's hooks and restore wrapper precedence after every refresh.
+if [[ -n "$brew_prefix" && -x "$brew_prefix/opt/fzf/bin/fzf" ]]; then
+  source <("$brew_prefix/opt/fzf/bin/fzf" --zsh)
+fi
+
+if [[ -n "$brew_prefix" && -r "$brew_prefix/share/powerlevel10k/powerlevel10k.zsh-theme" ]]; then
+  source "$brew_prefix/share/powerlevel10k/powerlevel10k.zsh-theme"
+fi
+if [[ -r "$HOME/.p10k.zsh" ]]; then
+  source "$HOME/.p10k.zsh"
+fi
+
+[[ -r "$HOME/.iterm2_shell_integration.zsh" ]] && source "$HOME/.iterm2_shell_integration.zsh"
+[[ -d "$HOME/.codeium/windsurf/bin" ]] && path=("$HOME/.codeium/windsurf/bin" $path)
+
+if command -v mise >/dev/null 2>&1; then
+  eval "$(mise activate zsh)"
+fi
+
+# direnv is deliberately non-secret. Every .envrc still requires a local,
+# content-bound `direnv allow` decision.
+if [[ -n "$brew_prefix" && -x "$brew_prefix/bin/direnv" ]]; then
+  eval "$("$brew_prefix/bin/direnv" hook zsh)"
+fi
+
+# Keep credential-aware command wrappers ahead of project runtimes after all
+# path-mutating hooks have been registered.
 _managed_wrapper_path_first() {
   path=("$HOME/.local/bin" ${path:#$HOME/.local/bin})
   export PATH
 }
-
 autoload -Uz add-zsh-hook
 add-zsh-hook -d chpwd _managed_wrapper_path_first 2>/dev/null
 add-zsh-hook -d precmd _managed_wrapper_path_first 2>/dev/null
 add-zsh-hook chpwd _managed_wrapper_path_first
 add-zsh-hook precmd _managed_wrapper_path_first
 _managed_wrapper_path_first
+
+# Upstream requires syntax highlighting to be sourced last.
+if [[ -n "$brew_prefix" && -r "$brew_prefix/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh" ]]; then
+  source "$brew_prefix/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh"
+fi
+unset brew_prefix

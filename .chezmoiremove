@@ -1,0 +1,12 @@
+.Brewfile.lock.json
+.config/git/allowed_signers
+.config/git/keys/github-personal.pub
+.config/git/ssh_config
+.config/git/ssh_config-personal
+.local/brewfiles/base/Brewfile
+.local/brewfiles/identity/Brewfile
+.zshrc.d/20-config-ssh
+.zshrc.d/10-plugin-setup
+.zshrc.d/11-plugin-install
+.zshrc.d/90-auto-commit-stats
+.zenv/.gitconfig-work

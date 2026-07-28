@@ -1,0 +1,95 @@
+#!/bin/sh
+set -eu
+
+usage() {
+    cat <<'EOF'
+Usage: dotfiles-brew COMMAND
+
+Commands:
+  check            Check that the rendered global Brewfile is satisfied.
+  apply            Install missing entries without a general upgrade pass.
+  upgrade          Explicitly update Homebrew and upgrade declared entries.
+  inventory        Print Bundle plus raw macOS application inventories.
+  inventory-bundle Print a valid Bundle snapshot to stdout; change nothing.
+  inventory-apps   Print raw macOS app and App Store receipt inventories.
+  cleanup-preview  Show undeclared entries; never remove anything.
+  doctor           Run Homebrew diagnostics.
+EOF
+}
+
+find_brew() {
+    if command -v brew >/dev/null 2>&1; then
+        command -v brew
+        return
+    fi
+    for candidate in /opt/homebrew/bin/brew /usr/local/bin/brew /home/linuxbrew/.linuxbrew/bin/brew; do
+        if [ -x "$candidate" ]; then
+            printf '%s\n' "$candidate"
+            return
+        fi
+    done
+    printf '%s\n' 'Homebrew is not installed in a supported prefix.' >&2
+    exit 127
+}
+
+brew_bin=$(find_brew)
+
+bundle_inventory() {
+    "$brew_bin" bundle dump --file=- --no-describe
+}
+
+application_inventory() {
+    if [ "$(uname -s)" != Darwin ]; then
+        printf '%s\n' '# Application inventory is only applicable to macOS.'
+        return
+    fi
+
+    printf '\n%s\n' '# Application bundles (includes installations outside Homebrew receipts)'
+    /usr/bin/find /Applications -maxdepth 1 -name '*.app' -prune -print
+    if [ -d "$HOME/Applications" ]; then
+        /usr/bin/find "$HOME/Applications" -maxdepth 1 -name '*.app' -prune -print
+    fi
+
+    printf '\n%s\n' '# Application bundles carrying Mac App Store receipts'
+    /usr/bin/find /Applications -path '*/Contents/_MASReceipt/receipt' -print
+    if [ -d "$HOME/Applications" ]; then
+        /usr/bin/find "$HOME/Applications" -path '*/Contents/_MASReceipt/receipt' -print
+    fi
+}
+
+command_name=${1:-}
+case "$command_name" in
+    check)
+        exec "$brew_bin" bundle check --global --verbose
+        ;;
+    apply)
+        exec "$brew_bin" bundle install --global --no-upgrade
+        ;;
+    upgrade)
+        "$brew_bin" update
+        exec "$brew_bin" bundle upgrade --global
+        ;;
+    inventory)
+        bundle_inventory
+        application_inventory
+        ;;
+    inventory-bundle)
+        exec "$brew_bin" bundle dump --file=- --no-describe
+        ;;
+    inventory-apps)
+        application_inventory
+        ;;
+    cleanup-preview)
+        exec "$brew_bin" bundle cleanup --global --all
+        ;;
+    doctor)
+        exec "$brew_bin" doctor
+        ;;
+    -h|--help|help)
+        usage
+        ;;
+    *)
+        usage >&2
+        exit 64
+        ;;
+esac

@@ -1,23 +1,37 @@
 #!/usr/bin/env zsh
 
-# Command Aliases
-alias python="/usr/bin/python3"
+command -v python3 >/dev/null 2>&1 && alias python=python3
 
-# Navigation shortcuts
-alias cdz="cd ~/Work/src/zenvironment"
+alias deps-check='dotfiles-brew check'
+alias deps-apply='dotfiles-brew apply'
+alias deps-upgrade='dotfiles-brew upgrade'
+alias update-global-deps-brew='dotfiles-brew upgrade'
+alias deps-inventory='dotfiles-brew inventory'
+alias deps-cleanup-preview='dotfiles-brew cleanup-preview'
 
-# Dependency shortcuts
-alias update-global-deps-brew="brew update && brew upgrade && brew bundle --global && chezmoi re-add && save-dotfiles 'update brew deps'"
-alias update-global-deps-npm="npm update -g"
-update-global-deps() {
-    update-global-deps-npm
-    update-global-deps-brew
+update-global-deps-npm() {
+  npm update -g "$@"
 }
 
-# glances
-alias glances="glances --theme-white"
+update-global-deps() {
+  update-global-deps-npm "$@" && update-global-deps-brew
+}
 
-# Screaming Frog SEO Spider
-alias sfseospider="/Applications/Screaming\ Frog\ SEO\ Spider.app/Contents/MacOS/ScreamingFrogSEOSpiderLauncher"
+auto-commit-stats() {
+  local stats_runner="$HOME/.local/src/github/dotcarls/auto-commit-stats/run.sh"
+  if [[ ! -x "$stats_runner" ]]; then
+    print -u2 "auto-commit-stats is not installed: $stats_runner"
+    return 1
+  fi
+  "$stats_runner" "$@"
+}
 
-alias hs-prod-eks-use2-1="aws eks --profile hypershield-production-admin update-kubeconfig --name hs-prod-eks-use2-1 --region us-east-2 --alias hs-prod-eks-use2-1"
+auto-commit-stats-bg() {
+  (auto-commit-stats "$@" >/dev/null 2>&1 &)
+}
+
+alias glances='glances --theme-white'
+
+if [[ -x "/Applications/Screaming Frog SEO Spider.app/Contents/MacOS/ScreamingFrogSEOSpiderLauncher" ]]; then
+  alias sfseospider='"/Applications/Screaming Frog SEO Spider.app/Contents/MacOS/ScreamingFrogSEOSpiderLauncher"'
+fi

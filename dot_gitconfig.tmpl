@@ -1,0 +1,73 @@
+[user]
+    name = {{ .personalGitName | quote }}
+    email = {{ .personalGitEmail | quote }}
+    useConfigOnly = true
+
+[core]
+    editor = vim
+
+[ssh]
+    variant = ssh
+
+[gpg]
+    format = ssh
+[gpg "ssh"]
+    allowedSignersFile = ~/.config/git/allowed_signers-personal
+[commit]
+    gpgSign = false
+
+[diff]
+    tool = default-difftool
+[difftool "default-difftool"]
+    cmd = code --wait --diff $LOCAL $REMOTE
+
+[merge]
+    tool = vscode
+[mergetool "vscode"]
+    cmd = code --wait $MERGED
+
+[pull]
+    rebase = true
+[submodule]
+    recurse = true
+
+[init]
+    defaultBranch = main
+
+[filter "lfs"]
+    clean = git-lfs clean -- %f
+    smudge = git-lfs smudge -- %f
+    process = git-lfs filter-process
+    required = true
+
+{{- if and (eq .chezmoi.os "darwin") (ne .personalGitHubAccount "") }}
+# Generic GitHub SSH remotes use the personal GitHub CLI credential held in
+# macOS Keychain. The encrypted work routing file declares longer,
+# organization-specific rewrites back to work SSH.
+[url "https://github.com/"]
+    insteadOf = git@github.com:
+    insteadOf = ssh://git@github.com/
+
+# GitHub CLI stores this account's token in macOS Keychain. Work URLs are
+# intercepted by the encrypted work routing file before this fallback.
+[credential "https://github.com"]
+    username = {{ .personalGitHubAccount | quote }}
+    helper =
+    helper = !gh auth git-credential
+[credential "https://gist.github.com"]
+    username = {{ .personalGitHubAccount | quote }}
+    helper =
+    helper = !gh auth git-credential
+{{- end }}
+
+# This local file is created once and populated only by the explicit macOS
+# Keychain migration helper. It must follow common signing defaults.
+[include]
+    path = ~/.config/git/.gitconfig-personal-local
+
+{{- if .workConfig }}
+# Work routing is last so repository-specific identity, signing, SSH, and
+# credential policy overrides personal defaults without becoming global.
+[include]
+    path = ~/.config/git/.gitconfig-work-routing
+{{- end }}
