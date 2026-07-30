@@ -5,7 +5,6 @@
 class ConjurCli < Formula
   desc "CyberArk Secrets Manager command-line interface"
   homepage "https://github.com/cyberark/conjur-cli-go"
-  version "9.2.4"
   license "Apache-2.0"
 
   on_macos do
