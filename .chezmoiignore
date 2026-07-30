@@ -2,6 +2,8 @@ README.md
 docs/**
 bootstrap-homebrew.sh
 scripts/**
+# Homebrew tap payload: versioned in this repository, never projected to $HOME.
+Formula/**
 
 {{- if or (ne .chezmoi.os "darwin") (eq .personalGitHubAccount "") }}
 .config/git/.gitconfig-personal-local

@@ -34,8 +34,39 @@ find_brew() {
 
 brew_bin=$(find_brew)
 
+run_brew() (
+    unset HOMEBREW_GITHUB_API_TOKEN
+
+    if [ "$(/usr/bin/uname -s)" = Darwin ] &&
+        /usr/bin/security find-generic-password \
+            -a github.com-public-rest \
+            -s dotfiles-homebrew-github-api >/dev/null 2>&1; then
+        if ! dotfiles_brew_github_api_token=$(
+            /usr/bin/security find-generic-password \
+                -a github.com-public-rest \
+                -s dotfiles-homebrew-github-api \
+                -w
+        ); then
+            printf '%s\n' \
+                'Unable to read the Homebrew GitHub API token from macOS Keychain.' >&2
+            exit 1
+        fi
+        if [ -z "$dotfiles_brew_github_api_token" ]; then
+            printf '%s\n' \
+                'The Homebrew GitHub API token in macOS Keychain is empty.' >&2
+            exit 1
+        fi
+
+        HOMEBREW_GITHUB_API_TOKEN=$dotfiles_brew_github_api_token
+        export HOMEBREW_GITHUB_API_TOKEN
+        unset dotfiles_brew_github_api_token
+    fi
+
+    exec "$brew_bin" "$@"
+)
+
 bundle_inventory() {
-    "$brew_bin" bundle dump --file=- --no-describe
+    run_brew bundle dump --file=- --no-describe
 }
 
 application_inventory() {
@@ -60,30 +91,30 @@ application_inventory() {
 command_name=${1:-}
 case "$command_name" in
     check)
-        exec "$brew_bin" bundle check --global --verbose
+        run_brew bundle check --global --verbose
         ;;
     apply)
-        exec "$brew_bin" bundle install --global --no-upgrade
+        run_brew bundle install --global --no-upgrade
         ;;
     upgrade)
-        "$brew_bin" update
-        exec "$brew_bin" bundle upgrade --global
+        run_brew update
+        run_brew bundle upgrade --global
         ;;
     inventory)
         bundle_inventory
         application_inventory
         ;;
     inventory-bundle)
-        exec "$brew_bin" bundle dump --file=- --no-describe
+        run_brew bundle dump --file=- --no-describe
         ;;
     inventory-apps)
         application_inventory
         ;;
     cleanup-preview)
-        exec "$brew_bin" bundle cleanup --global --all
+        run_brew bundle cleanup --global --all
         ;;
     doctor)
-        exec "$brew_bin" doctor
+        run_brew doctor
         ;;
     -h|--help|help)
         usage

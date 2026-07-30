@@ -107,10 +107,26 @@ inventory` therefore combines the Bundle snapshot with raw `/Applications`,
 casks, taps, MAS apps, VS Code extensions, and supported language-global tools
 are reviewed into profile data. Cleanup remains preview-only.
 
+The work profile obtains `conjur-cli` from the repository's `dotcarls/pinned`
+tap. Its formula contains immutable release URLs and reviewed SHA-256 values;
+normal Homebrew evaluation performs no release-discovery request. Updating it
+means reviewing the upstream release, changing `Formula/conjur-cli.rb`, and
+validating the formula before publishing. `Formula/` is tap payload and is
+excluded from chezmoi's home-directory projection.
+
 ## Credentials and encryption
 
 - Personal GitHub HTTPS authentication uses GitHub CLI's macOS keyring entry.
   No GitHub token is exported through the shell or direnv.
+- Homebrew GitHub REST requests use a separate, no-scope public-read token in
+  the macOS Keychain generic-password item with service
+  `dotfiles-homebrew-github-api` and account `github.com-public-rest`.
+  `dotfiles-brew` reads it only at a `brew` process boundary and exports it to
+  that child as Homebrew's documented `HOMEBREW_GITHUB_API_TOKEN`; it is never
+  written to `brew.env`, a shell startup file, or direnv. The similarly named
+  `HOMEBREW_GITHUB_PACKAGES_TOKEN` is for GitHub Packages, not REST API rate
+  limits; the singular `HOMEBREW_GITHUB_PACKAGE_TOKEN` is not a documented
+  Homebrew variable.
 - Personal Git authentication stays on HTTPS through GitHub CLI's Keychain
   credential. Commit signing migrates separately to a passphrase-protected
   local SSH signing key whose passphrase is stored by Apple's SSH integration
@@ -158,5 +174,5 @@ exported startup file.
 
 - [chezmoi setup](https://www.chezmoi.io/user-guide/setup/), [machine differences](https://www.chezmoi.io/user-guide/manage-machine-to-machine-differences/), [scripts](https://www.chezmoi.io/user-guide/use-scripts-to-perform-actions/), and [templating](https://www.chezmoi.io/user-guide/templating/)
 - [chezmoi 1Password](https://www.chezmoi.io/user-guide/password-managers/1password/), [Keychain](https://www.chezmoi.io/user-guide/password-managers/keychain-and-windows-credentials-manager/), and [rage](https://www.chezmoi.io/user-guide/encryption/rage/)
-- [Homebrew Bundle](https://docs.brew.sh/Brew-Bundle-and-Brewfile), [manpage](https://docs.brew.sh/Manpage), and [installation prefixes](https://docs.brew.sh/Installation)
+- [Homebrew Bundle](https://docs.brew.sh/Brew-Bundle-and-Brewfile), [manpage](https://docs.brew.sh/Manpage), [tips](https://docs.brew.sh/Tips-and-Tricks), [tap trust](https://docs.brew.sh/Tap-Trust), [supply-chain security](https://docs.brew.sh/Supply-Chain-Security), and [installation prefixes](https://docs.brew.sh/Installation)
 - [`rage`](https://github.com/str4d/rage) and [`direnv`](https://direnv.net/)

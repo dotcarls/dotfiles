@@ -19,6 +19,9 @@
 8. The 1Password SSH agent is selected only by the encrypted work SSH config;
    it is never exported as the ambient shell agent. Personal HTTPS Git auth and
    Apple-agent commit signing therefore remain isolated from work identities.
+9. The dedicated Homebrew GitHub API token is loaded from Keychain only inside
+   a `brew` child process. It is not ambient shell state or package-registry
+   authentication.
 
 ## Profile matrix
 
@@ -117,6 +120,28 @@ Safe lifecycle:
 Third-party work formulae carry item-level `trusted: true` only where this
 repository intentionally accepts the tap. New third-party taps require review;
 trust is never granted globally.
+
+`conjur-cli` is a deliberate third-party exception. The repository is exposed
+as the explicitly addressed `dotcarls/pinned` tap, and its formula pins each
+supported OS/architecture release asset to an immutable URL and SHA-256. It
+does not patch CyberArk's tap and does not execute a GitHub release lookup while
+Homebrew loads package metadata. Release discovery and checksum review happen
+at maintenance time, before the formula change is committed.
+
+Homebrew documents `HOMEBREW_GITHUB_API_TOKEN` for GitHub REST requests and
+`HOMEBREW_GITHUB_PACKAGES_TOKEN` for the GitHub Packages registry. The managed
+wrapper reads the former from the dedicated macOS Keychain item only for each
+`brew` child process. A `brew.env` file is intentionally unsuitable because
+Homebrew does not execute commands or expand shell expressions in those files,
+and storing the token there would put it in plaintext.
+
+This process boundary limits ambient exposure; it is not a sandbox. Homebrew
+tap definitions are executable Ruby with the user's privileges, and
+`HOMEBREW_GITHUB_API_TOKEN` is available to Homebrew while it runs. The token
+is therefore required to have no scopes beyond GitHub's inherent
+public-repository access and a bounded lifetime, and it is never reused for Git
+authentication or package publishing. Only explicitly reviewed formulae
+receive item-level trust.
 
 ## direnv boundary
 
