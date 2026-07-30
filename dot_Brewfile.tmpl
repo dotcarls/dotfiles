@@ -2,9 +2,6 @@
 # This is the complete machine-global dependency union. Project dependencies stay in projects.
 {{- if .brewEnabled }}
 
-tap "homebrew/bundle"
-tap "homebrew/services"
-
 {{- range .packages.baseFormulae }}
 brew {{ . | quote }}
 {{- end }}

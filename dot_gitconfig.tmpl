@@ -48,16 +48,18 @@
     insteadOf = git@github.com:
     insteadOf = ssh://git@github.com/
 
-# GitHub CLI stores this account's token in macOS Keychain. Work URLs are
-# intercepted by the encrypted work routing file before this fallback.
+# GitHub CLI stores this account's token in macOS Keychain. Homebrew filters
+# PATH during tap clones, so use the configured prefix-qualified executable.
+# Work URLs are intercepted by the encrypted work routing file before this
+# fallback.
 [credential "https://github.com"]
     username = {{ .personalGitHubAccount | quote }}
     helper =
-    helper = !gh auth git-credential
+    helper = !{{ .homebrewPrefix }}/bin/gh auth git-credential
 [credential "https://gist.github.com"]
     username = {{ .personalGitHubAccount | quote }}
     helper =
-    helper = !gh auth git-credential
+    helper = !{{ .homebrewPrefix }}/bin/gh auth git-credential
 {{- end }}
 
 # This local file is created once and populated only by the explicit macOS
