@@ -94,20 +94,16 @@ darwinFormulae = [
 ]
 
 darwinCasks = [
-  "arduino-ide",
   "chatgpt",
   "claude",
   "claude-code",
   "codex",
   "discord",
   "docker-desktop",
-  "firefox",
   "font-hack-nerd-font",
   "font-mononoki",
   "font-mononoki-nerd-font",
-  "gb-studio",
   "google-chrome",
-  "ik-product-manager",
   "istat-menus",
   "iterm2",
   "keymapp",
@@ -115,21 +111,16 @@ darwinCasks = [
   "notion",
   "ollama-app",
   "plexamp",
-  "processing",
   "qflipper",
-  "raspberry-pi-imager",
   "rectangle",
   "silicon-labs-vcp-driver",
   "spotify",
-  "utm",
   "vagrant",
   "vcv-rack",
   "visual-studio-code",
   "vlc",
   "warp",
-  "devin-desktop",
   "whatsapp",
-  "zoom",
 ]
 
 # These installed applications cannot currently be represented as an active
@@ -236,16 +227,8 @@ npmTools = [
 ]
 
 [[packages.masApps]]
-name = "Aiko"
-id = 1672085276
-
-[[packages.masApps]]
 name = "Actions"
 id = 1586435171
-
-[[packages.masApps]]
-name = "Hyperduck"
-id = 6444667067
 
 [[packages.masApps]]
 name = "Microsoft Outlook"
@@ -256,33 +239,9 @@ name = "Koala Sampler"
 id = 1479881366
 
 [[packages.masApps]]
-name = "Copilot: Track & Budget Money"
-id = 1447330651
-
-[[packages.masApps]]
 name = "Slack for Desktop"
 id = 803453959
 
 [[packages.masApps]]
 name = "Radarscope"
 id = 288419283
-
-[[packages.masApps]]
-name = "GarageBand"
-id = 682658836
-
-[[packages.masApps]]
-name = "iMovie"
-id = 408981434
-
-[[packages.masApps]]
-name = "Keynote: Design Presentations"
-id = 361285480
-
-[[packages.masApps]]
-name = "Numbers: Make Spreadsheets"
-id = 361304891
-
-[[packages.masApps]]
-name = "Pages: Create Documents"
-id = 361309726
